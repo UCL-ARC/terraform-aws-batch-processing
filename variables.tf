@@ -9,3 +9,9 @@ variable "solution_name" {
   default     = "arc-batch"
   description = "Overall name for the solution"
 }
+
+variable "vpc_cidr_block" {
+  type        = string
+  default     = "10.0.0.0/25"
+  description = "The CIDR block for the VPC"
+}

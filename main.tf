@@ -11,7 +11,8 @@ provider "aws" {
 }
 
 module "vpc" {
-  source        = "./modules/vpc"
-  solution_name = var.solution_name
-  region        = var.region
+  source          = "./modules/vpc"
+  solution_name   = var.solution_name
+  region          = var.region
+  base_cidr_block = var.vpc_cidr_block
 }
