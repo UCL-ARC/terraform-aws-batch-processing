@@ -4,14 +4,14 @@ provider "aws" {
 
   default_tags {
     tags = {
-      Terraform   = "true"
+      Terraform = "true"
     }
   }
 
 }
 
 module "vpc" {
-  source          = "./modules/vpc"
-  solution_name   = "${var.solution_name}"
-  region          = var.region
+  source        = "./modules/vpc"
+  solution_name = var.solution_name
+  region        = var.region
 }

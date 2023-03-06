@@ -13,6 +13,5 @@ variable "region" {
 
 variable "solution_name" {
   type        = string
-  default     = "arc-batch"
   description = "Overall name for the solution"
 }
