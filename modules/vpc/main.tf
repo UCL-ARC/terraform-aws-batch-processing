@@ -43,7 +43,7 @@ module "vpc" {
   # Create NATed private subnets.
   private_subnets = [
     module.subnet_addrs.network_cidr_blocks["${var.region}a-private"],
-    module.subnet_addrs.network_cidr_blocks["${var.region}a-private"]
+    module.subnet_addrs.network_cidr_blocks["${var.region}b-private"]
   ]
 
   # Enable NATing.
