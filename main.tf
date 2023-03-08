@@ -18,7 +18,7 @@ module "vpc" {
 }
 
 module "s3_upload" {
-  source          = "./modules/s3_upload"
-  region          = var.region
-  bucket_name     = "${var.solution_name}-upload"
+  source      = "./modules/s3_upload"
+  region      = var.region
+  bucket_name = var.solution_name
 }

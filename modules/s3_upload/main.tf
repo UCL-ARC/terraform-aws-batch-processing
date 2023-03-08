@@ -1,5 +1,5 @@
 
-locals  {
+locals {
   s3_bucket_name = "${var.bucket_name}-${random_id.id.hex}"
 }
 
@@ -7,11 +7,11 @@ resource "random_id" "id" {
   byte_length = 5
 }
 
-resource "aws_s3_bucket" "s3_upload_bucket"{
-  bucket        = local.s3_bucket_name
+resource "aws_s3_bucket" "s3_upload_bucket" {
+  bucket = local.s3_bucket_name
 }
 
-resource "aws_s3_bucket_intelligent_tiering_configuration" "tiering_bucket"{
+resource "aws_s3_bucket_intelligent_tiering_configuration" "tiering_bucket" {
   bucket = aws_s3_bucket.s3_upload_bucket.id
   name   = "EntireBucket"
 
