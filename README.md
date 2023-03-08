@@ -15,8 +15,9 @@ No providers.
 
 | Name | Source | Version |
 |------|--------|---------|
+| <a name="module_s3_upload"></a> [s3\_upload](#module\_s3\_upload) | ./modules/s3_upload | n/a |
 | <a name="module_vpc"></a> [vpc](#module\_vpc) | ./modules/vpc | n/a |
-| <a name="module_s3_upload"></a> [s3_upload](#module\_s3_upload) | ./modules/s3_upload | n/a |
+
 ## Resources
 
 No resources.
