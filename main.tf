@@ -22,3 +22,13 @@ module "s3_upload" {
   region      = var.region
   bucket_name = "${var.solution_name}-upload"
 }
+
+module "efs" {
+  source                      = "./modules/efs"
+  region                      = var.region
+  solution_name               = var.solution_name
+  vpc_id                      = module.vpc.vpc_id
+  private_subnets             = module.vpc.private_subnets
+  base_cidr_block             = var.vpc_cidr_block
+  efs_transition_to_ia_period = var.efs_transition_to_ia_period
+}

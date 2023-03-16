@@ -6,13 +6,21 @@ variable "region" {
 
 variable "solution_name" {
   type        = string
-  default     = "arc-batch"
   description = "Overall name for the solution"
 }
 
-variable "vpc_cidr_block" {
+variable "vpc_id" {
   type        = string
-  default     = "10.0.0.0/25"
+  description = "VPC ID"
+}
+
+variable "private_subnets" {
+  type        = list(string)
+  description = "VPC private subnets' IDs list"
+}
+
+variable "base_cidr_block" {
+  type        = string
   description = "The CIDR block for the VPC"
 }
 
