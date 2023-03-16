@@ -15,3 +15,9 @@ variable "vpc_cidr_block" {
   default     = "10.0.0.0/25"
   description = "The CIDR block for the VPC"
 }
+
+variable "efs_transition_to_ia_period" {
+  type        = string
+  default     = "AFTER_7_DAYS"
+  description = "Lifecycle policy transition period to IA"
+}
