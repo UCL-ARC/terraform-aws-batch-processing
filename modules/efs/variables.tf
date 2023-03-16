@@ -24,11 +24,6 @@ variable "base_cidr_block" {
   description = "The CIDR block for the VPC"
 }
 
-variable "base_cidr_block" {
-  type        = string
-  description = "The CIDR block for the VPC"
-}
-
 variable "efs_transition_to_ia_period" {
   type        = string
   default     = "AFTER_7_DAYS"
