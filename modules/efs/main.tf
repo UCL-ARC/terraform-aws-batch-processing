@@ -27,7 +27,7 @@ module "efs" {
   policy_statements = [
     {
       sid     = "${local.name}-efs"
-      effect  = ["Allow"]
+      effect  = "Allow"
       actions = ["elasticfilesystem:*"]
       principals = [
         {
@@ -104,57 +104,6 @@ module "efs" {
     Environment = "dev"
   }
 }
-
-# data "aws_iam_policy_document" "policy" {
-#   statement {
-#     sid    = "ExampleStatement01"
-#     effect = "Allow"
-
-#     principals {
-#       type        = "AWS"
-#       identifiers = ["*"]
-#     }
-
-#     actions = [
-#       "elasticfilesystem:ClientMount",
-#       "elasticfilesystem:ClientWrite",
-#     ]
-
-#     resources = [module.efs.arn]
-
-#     condition {
-#       test     = "Bool"
-#       variable = "aws:SecureTransport"
-#       values   = ["true"]
-#     }
-#   }
-# }
-
-# resource "aws_efs_mount_target" "alpha" {
-#   file_system_id = module.efs.id
-#   subnet_id      = element(var.private_subnets, 0)
-# }
-
-# resource "aws_vpc" "foo" {
-#   cidr_block = "10.0.0.0/16"
-# }
-
-# resource "aws_subnet" "alpha" {
-#   vpc_id            = aws_vpc.foo.id
-#   availability_zone = "us-west-2a"
-#   cidr_block        = "10.0.1.0/24"
-# }
-
-# resource "aws_efs_file_system_policy" "policy" {
-#   file_system_id                     = aws_efs_file_system.fs.id
-#   bypass_policy_lockout_safety_check = true
-#   policy                             = data.aws_iam_policy_document.policy.json
-# }
-
-# resource "aws_efs_mount_target" "alpha" {
-#   file_system_id = aws_efs_file_system.foo.id
-#   subnet_id      = aws_subnet.alpha.id
-# }
 
 module "kms" {
   source  = "terraform-aws-modules/kms/aws"
