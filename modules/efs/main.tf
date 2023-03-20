@@ -27,7 +27,7 @@ module "efs" {
   policy_statements = [
     {
       sid     = "${local.name}-efs"
-      actions = ["elasticfilesystem:ClientMount"]
+      actions = ["elasticfilesystem:*"]
       principals = [
         {
           type        = "AWS"
