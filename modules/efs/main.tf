@@ -13,9 +13,9 @@ module "efs" {
   encrypted      = true
   kms_key_arn    = module.kms.key_arn
 
-  performance_mode = "generalPurpose"
-  #   throughput_mode                 = "provisioned"
-  #   provisioned_throughput_in_mibps = 256
+  performance_mode                = "generalPurpose"
+  throughput_mode                 = "provisioned"
+  provisioned_throughput_in_mibps = var.efs_throughput_in_mibps
 
   lifecycle_policy = {
     transition_to_ia = var.efs_transition_to_ia_period

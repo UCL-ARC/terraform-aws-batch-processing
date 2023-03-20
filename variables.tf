@@ -21,3 +21,9 @@ variable "efs_transition_to_ia_period" {
   default     = "AFTER_7_DAYS"
   description = "Lifecycle policy transition period to IA"
 }
+
+variable "efs_throughput_in_mibps" {
+  type        = number
+  default     = 1
+  description = "EFS provisioned throughput in mibps"
+}

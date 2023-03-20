@@ -31,4 +31,5 @@ module "efs" {
   private_subnets             = module.vpc.private_subnets
   base_cidr_block             = var.vpc_cidr_block
   efs_transition_to_ia_period = var.efs_transition_to_ia_period
+  efs_throughput_in_mibps     = var.efs_throughput_in_mibps
 }
