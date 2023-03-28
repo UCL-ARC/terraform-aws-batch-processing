@@ -84,10 +84,10 @@ module "batch" {
     example = {
       name                  = local.name
       propagate_tags        = true
-      platform_capabilities = [upper("${compute_environments}")]
+      platform_capabilities = [upper("${var.compute_environments}")]
 
-      container_properties                  = file("src/template_container.json")
-      container_properties.executionRoleArn = aws_iam_role.ecs_task_execution_role.arn
+      container_properties = file("src/template_container.json")
+      executionRoleArn     = aws_iam_role.ecs_task_execution_role.arn
 
       attempt_duration_seconds = 60
       retry_strategy = {
@@ -109,8 +109,6 @@ module "batch" {
       }
     }
   }
-
-  tags = local.tags
 }
 
 ################################################################################
@@ -136,8 +134,6 @@ module "vpc_endpoint_security_group" {
 
   egress_cidr_blocks = ["0.0.0.0/0"]
   egress_rules       = ["https-443-tcp"]
-
-  tags = local.tags
 }
 
 resource "aws_iam_role" "ecs_task_execution_role" {
