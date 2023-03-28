@@ -27,3 +27,14 @@ variable "efs_throughput_in_mibps" {
   default     = 1
   description = "EFS provisioned throughput in mibps"
 }
+
+variable "compute_environments" {
+  type        = string
+  description = "Compute environments"
+  default     = "fargate"
+}
+
+variable "compute_resources_max_vcpus" {
+  type        = number
+  description = "Max VCPUs resources"
+}

@@ -1,0 +1,12 @@
+[
+  {
+    "image": "public.ecr.aws/runecast/busybox:1.33.1",
+    "fargatePlatformConfiguration" :{
+      "platformVersion" : "LATEST"
+    },
+    "resourceRequirements" : [
+      { "type" : "VCPU", "value" : "1" },
+      { "type" : "MEMORY", "value" : "2048" }
+    ]
+  }
+]
