@@ -37,4 +37,5 @@ variable "compute_environments" {
 variable "compute_resources_max_vcpus" {
   type        = number
   description = "Max VCPUs resources"
+  default     = 1
 }
