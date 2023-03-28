@@ -31,7 +31,7 @@ module "batch" {
   }
 
   compute_environments = {
-    var.compute_environments = {
+    env = {
       name_prefix = "${var.compute_environments}"
 
       compute_resources = {
@@ -86,7 +86,7 @@ module "batch" {
       propagate_tags        = true
       platform_capabilities = [upper("${var.compute_environments}")]
 
-      container_properties = file("src/template_container.json")
+      container_properties = file("${path.module}/src/template_container.json")
       executionRoleArn     = aws_iam_role.ecs_task_execution_role.arn
 
       attempt_duration_seconds = 60
@@ -161,7 +161,7 @@ resource "aws_ecs_task_definition" "service" {
   family                   = "test"
   requires_compatibilities = [upper("${compute_environments}")]
   network_mode             = "awsvpc"
-  container_definitions    = file("src/task-definitions-service.json")
+  container_definitions    = file("${path.module}/src/task-definitions-service.json")
 
   volume {
     name = "service-storage"
