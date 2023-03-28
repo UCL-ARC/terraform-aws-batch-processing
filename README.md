@@ -15,6 +15,7 @@ No providers.
 
 | Name | Source | Version |
 |------|--------|---------|
+| <a name="module_batch"></a> [batch](#module\_batch) | ./modules/batch | n/a |
 | <a name="module_efs"></a> [efs](#module\_efs) | ./modules/efs | n/a |
 | <a name="module_s3_upload"></a> [s3\_upload](#module\_s3\_upload) | ./modules/s3_upload | n/a |
 | <a name="module_vpc"></a> [vpc](#module\_vpc) | ./modules/vpc | n/a |
@@ -27,6 +28,8 @@ No resources.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_compute_environments"></a> [compute\_environments](#input\_compute\_environments) | Compute environments | `string` | `"fargate"` | no |
+| <a name="input_compute_resources_max_vcpus"></a> [compute\_resources\_max\_vcpus](#input\_compute\_resources\_max\_vcpus) | Max VCPUs resources | `number` | n/a | yes |
 | <a name="input_efs_throughput_in_mibps"></a> [efs\_throughput\_in\_mibps](#input\_efs\_throughput\_in\_mibps) | EFS provisioned throughput in mibps | `number` | `1` | no |
 | <a name="input_efs_transition_to_ia_period"></a> [efs\_transition\_to\_ia\_period](#input\_efs\_transition\_to\_ia\_period) | Lifecycle policy transition period to IA | `string` | `"AFTER_7_DAYS"` | no |
 | <a name="input_region"></a> [region](#input\_region) | The region to deploy into. | `string` | `"eu-west-2"` | no |
