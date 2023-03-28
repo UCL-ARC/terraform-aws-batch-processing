@@ -7,6 +7,6 @@ output "access_points" {
   description = "EFS access points"
 }
 output "efs_id" {
-  value       = module.efs.efs_id
+  value       = module.efs.id
   description = "EFS ID"
 }

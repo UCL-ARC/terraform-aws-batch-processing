@@ -159,7 +159,7 @@ resource "aws_iam_role_policy_attachment" "ecs_task_execution_role" {
 
 resource "aws_ecs_task_definition" "service" {
   family                   = "test"
-  requires_compatibilities = [upper("${compute_environments}")]
+  requires_compatibilities = [upper("${var.compute_environments}")]
   network_mode             = "awsvpc"
   container_definitions    = file("${path.module}/src/task-definitions-service.json")
 
@@ -172,7 +172,7 @@ resource "aws_ecs_task_definition" "service" {
       transit_encryption      = "ENABLED"
       transit_encryption_port = 2999
       authorization_config {
-        access_point_id = var.efs_access_point_id
+        access_point_id = var.efs_access_points_id
         iam             = "ENABLED"
       }
     }

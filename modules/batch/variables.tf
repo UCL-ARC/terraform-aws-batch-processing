@@ -6,6 +6,10 @@ variable "efs_id" {
   type        = string
   description = "EFS ID"
 }
+variable "efs_access_points_id" {
+  type        = string
+  description = "EFS access points id"
+}
 variable "vpc_id" {
   type        = string
   description = "VPC ID"
