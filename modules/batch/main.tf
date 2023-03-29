@@ -86,8 +86,9 @@ module "batch" {
       propagate_tags        = true
       platform_capabilities = [upper("${var.compute_environments}")]
 
-      container_properties = file("${path.module}/src/template_container.json")
-      executionRoleArn     = aws_iam_role.ecs_task_execution_role.arn
+      container_properties = templatefile("${path.module}/src/template_container.json", {
+        executionRoleArn = aws_iam_role.ecs_task_execution_role.arn
+      })
 
       attempt_duration_seconds = 60
       retry_strategy = {
@@ -155,26 +156,4 @@ data "aws_iam_policy_document" "ecs_task_execution_role" {
 resource "aws_iam_role_policy_attachment" "ecs_task_execution_role" {
   role       = aws_iam_role.ecs_task_execution_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
-}
-
-resource "aws_ecs_task_definition" "service" {
-  family                   = "test"
-  requires_compatibilities = [upper("${var.compute_environments}")]
-  network_mode             = "awsvpc"
-  container_definitions    = file("${path.module}/src/task-definitions-service.json")
-
-  volume {
-    name = "service-storage"
-
-    efs_volume_configuration {
-      file_system_id          = var.efs_id
-      root_directory          = "/opt/data"
-      transit_encryption      = "ENABLED"
-      transit_encryption_port = 2999
-      authorization_config {
-        access_point_id = var.efs_access_points_id
-        iam             = "ENABLED"
-      }
-    }
-  }
 }

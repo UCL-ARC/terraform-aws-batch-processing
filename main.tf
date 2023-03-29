@@ -37,11 +37,8 @@ module "efs" {
 module "batch" {
   source                      = "./modules/batch"
   solution_name               = var.solution_name
-  efs_id                      = module.efs.efs_id
-  efs_access_points_id        = module.efs.access_points.id
   vpc_id                      = module.vpc.vpc_id
   private_subnets             = module.vpc.private_subnets
   compute_environments        = var.compute_environments
   compute_resources_max_vcpus = var.compute_resources_max_vcpus
-
 }
