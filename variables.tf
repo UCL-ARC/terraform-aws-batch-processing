@@ -52,5 +52,5 @@ variable "container_vcpu" {
 variable "container_memory" {
   type        = number
   description = "Containter Memory resources"
-  default     = 1
+  default     = 2048
 }
