@@ -27,12 +27,12 @@ variable "container_image_url" {
 }
 variable "container_vcpu" {
   type        = number
-  description = "Containter VCPUs resources"
+  description = "Container vCPUs resources"
   default     = 1
 }
 variable "container_memory" {
   type        = number
-  description = "Containter Memory resources"
+  description = "Container Memory resources"
   default     = 1
 }
 variable "efs_id" {
