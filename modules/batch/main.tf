@@ -87,8 +87,25 @@ module "batch" {
       platform_capabilities = [upper("${var.compute_environments}")]
 
       container_properties = templatefile("${path.module}/src/template_container.json", {
+        container_image  = var.container_image_url
+        container_vcpu   = var.container_vcpu
+        container_memory = var.container_memory
         executionRoleArn = aws_iam_role.ecs_task_execution_role.arn
       })
+
+      volume = {
+        name = "service-storage"
+
+        efs_volume_configuration = {
+          file_system_id          = var.efs_id
+          root_directory          = "/opt/data"
+          transit_encryption      = "ENABLED"
+          transit_encryption_port = 2999
+          authorization_config = {
+            iam = "ENABLED"
+          }
+        }
+      }
 
       attempt_duration_seconds = 60
       retry_strategy = {

@@ -39,3 +39,18 @@ variable "compute_resources_max_vcpus" {
   description = "Max VCPUs resources"
   default     = 1
 }
+variable "container_image_url" {
+  type        = string
+  description = "Container image URL"
+  default     = "public.ecr.aws/docker/library/busybox:latest"
+}
+variable "container_vcpu" {
+  type        = number
+  description = "Containter VCPUs resources"
+  default     = 1
+}
+variable "container_memory" {
+  type        = number
+  description = "Containter Memory resources"
+  default     = 1
+}

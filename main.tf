@@ -41,4 +41,8 @@ module "batch" {
   private_subnets             = module.vpc.private_subnets
   compute_environments        = var.compute_environments
   compute_resources_max_vcpus = var.compute_resources_max_vcpus
+  container_image_url         = var.container_image_url
+  container_vcpu              = var.container_vcpu
+  container_memory            = var.container_memory
+  efs_id                      = module.efs.efs_id
 }
