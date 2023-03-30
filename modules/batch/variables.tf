@@ -33,7 +33,7 @@ variable "container_vcpu" {
 variable "container_memory" {
   type        = number
   description = "Container Memory resources"
-  default     = 1
+  default     = 2048
 }
 variable "efs_id" {
   type        = string
