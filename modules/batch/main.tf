@@ -93,8 +93,8 @@ module "batch" {
           platformVersion = "LATEST"
         },
         resourceRequirements = [
-          { type = "VCPU", value = var.container_vcpu },
-          { type = "MEMORY", value = var.container_memory }
+          { type = "VCPU", value = tostring(var.container_vcpu) },
+          { type = "MEMORY", value = tostring(var.container_memory) }
         ],
         executionRoleArn = aws_iam_role.ecs_task_execution_role.arn
       })
