@@ -85,11 +85,6 @@ variable "as2_fleet_display_name" {
 #  description = "Security group IDs for fleet"
 #}
 
-variable "as2_fleet_subnet_ids" {
-  type        = list(string)
-  description = "Subnet IDs for fleet"
-}
-
 variable "as2_image_name" {
   type        = string
   description = "AS2 image to deploy"
