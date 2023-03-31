@@ -1,39 +1,20 @@
-variable "region" {
-  type        = string
-  default     = "eu-west-2"
-  description = "The region to deploy into."
-}
-
 variable "solution_name" {
   type        = string
-  default     = "arc-batch"
   description = "Overall name for the solution"
 }
-
-variable "vpc_cidr_block" {
+variable "vpc_id" {
   type        = string
-  default     = "10.0.0.0/25"
-  description = "The CIDR block for the VPC"
+  description = "VPC ID"
 }
-
-variable "efs_transition_to_ia_period" {
-  type        = string
-  default     = "AFTER_7_DAYS"
-  description = "Lifecycle policy transition period to IA"
+variable "private_subnets" {
+  type        = list(string)
+  description = "VPC private subnets' IDs list"
 }
-
-variable "efs_throughput_in_mibps" {
-  type        = number
-  default     = 1
-  description = "EFS provisioned throughput in mibps"
-}
-
 variable "compute_environments" {
   type        = string
   description = "Compute environments"
   default     = "fargate"
 }
-
 variable "compute_resources_max_vcpus" {
   type        = number
   description = "Max VCPUs resources"
@@ -46,11 +27,15 @@ variable "container_image_url" {
 }
 variable "container_vcpu" {
   type        = number
-  description = "Containter VCPUs resources"
+  description = "Container vCPUs resources"
   default     = 1
 }
 variable "container_memory" {
   type        = number
-  description = "Containter Memory resources"
+  description = "Container Memory resources"
   default     = 2048
+}
+variable "efs_id" {
+  type        = string
+  description = "EFS ID"
 }
