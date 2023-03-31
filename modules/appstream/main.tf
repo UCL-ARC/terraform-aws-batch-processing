@@ -6,7 +6,7 @@ resource "aws_appstream_fleet" "this" {
 
   name                               = var.fleet_name
   description                        = var.fleet_description
-  display_name                       = var.stack_display_name
+  display_name                       = var.fleet_display_name
   enable_default_internet_access     = false
   fleet_type                         = "ON_DEMAND"
   image_name                         = var.image_name
@@ -19,7 +19,7 @@ resource "aws_appstream_fleet" "this" {
 
   vpc_config {
     subnet_ids         = [var.fleet_subnet_id]
-    security_group_ids = [aws_security_group.appstream.id]
+    #security_group_ids = [aws_security_group.appstream.id]
   }
 }
 
