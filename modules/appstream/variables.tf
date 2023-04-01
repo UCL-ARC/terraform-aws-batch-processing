@@ -44,6 +44,11 @@ variable "instance_type" {
   default     = "stream.standard.medium"
 }
 
+variable "s3_arn" {
+  description = "ARN of the s3 bucket to read from."
+  type        = string
+}
+
 variable "stack_name" {
   type        = string
   description = "Stack name"
@@ -60,4 +65,9 @@ variable "stack_display_name" {
   type        = string
   description = "Stack diplay name"
   default     = "ARC batch process stack"
+}
+
+variable "vpc_id" {
+  type        = string
+  description = "VPC ID"
 }
