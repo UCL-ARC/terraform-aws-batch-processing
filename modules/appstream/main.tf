@@ -19,7 +19,7 @@ resource "aws_appstream_fleet" "this" {
   stream_view = "DESKTOP"
 
   vpc_config {
-    subnet_ids = var.fleet_subnet_ids
+    subnet_ids         = var.fleet_subnet_ids
     security_group_ids = [aws_security_group.appstream.id]
   }
 }
