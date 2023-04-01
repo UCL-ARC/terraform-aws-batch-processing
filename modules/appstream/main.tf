@@ -11,6 +11,7 @@ resource "aws_appstream_fleet" "this" {
   fleet_type                         = "ON_DEMAND"
   image_name                         = var.image_name
   instance_type                      = var.instance_type
+  iam_role_arn                       = aws_iam_instance_profile.as2_instance.arn
   idle_disconnect_timeout_in_seconds = 1800 # 30 mins
   disconnect_timeout_in_seconds      = 60
   max_user_duration_in_seconds       = 7200 # 2 hours
@@ -19,7 +20,7 @@ resource "aws_appstream_fleet" "this" {
 
   vpc_config {
     subnet_ids = var.fleet_subnet_ids
-    #security_group_ids = [aws_security_group.appstream.id]
+    security_group_ids = [aws_security_group.appstream.id]
   }
 }
 
@@ -63,10 +64,6 @@ resource "aws_appstream_stack" "this" {
     permission = "DISABLED"
   }
 
-  application_settings {
-    enabled        = true
-    settings_group = "SettingsGroup"
-  }
 }
 
 # Associates fleet to stack
