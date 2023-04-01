@@ -38,7 +38,7 @@ resource "aws_iam_policy" "s3_policy" {
 }
 
 resource "aws_iam_role" "as2_role" {
-  name               = "ARCAS2Role${local.title_env}"
+  name               = "ARCAS2InstanceRole"
   assume_role_policy = data.aws_iam_policy_document.instance_assume_role_policy.json
   managed_policy_arns = [
     aws_iam_policy.s3_policy.arn
