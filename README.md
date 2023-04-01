@@ -15,6 +15,7 @@ No providers.
 
 | Name | Source | Version |
 |------|--------|---------|
+| <a name="module_appstream"></a> [appstream](#module\_appstream) | ./modules/appstream | n/a |
 | <a name="module_batch"></a> [batch](#module\_batch) | ./modules/batch | n/a |
 | <a name="module_efs"></a> [efs](#module\_efs) | ./modules/efs | n/a |
 | <a name="module_s3_upload"></a> [s3\_upload](#module\_s3\_upload) | ./modules/s3_upload | n/a |
@@ -28,6 +29,15 @@ No resources.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_as2_desired_instance_num"></a> [as2\_desired\_instance\_num](#input\_as2\_desired\_instance\_num) | Desired number of AS2 instances | `number` | `1` | no |
+| <a name="input_as2_fleet_description"></a> [as2\_fleet\_description](#input\_as2\_fleet\_description) | Fleet description | `string` | `"ARC batch process fleet"` | no |
+| <a name="input_as2_fleet_display_name"></a> [as2\_fleet\_display\_name](#input\_as2\_fleet\_display\_name) | Fleet diplay name | `string` | `"ARC batch process fleet"` | no |
+| <a name="input_as2_fleet_name"></a> [as2\_fleet\_name](#input\_as2\_fleet\_name) | Fleet name | `string` | `"ARC-batch-fleet"` | no |
+| <a name="input_as2_image_name"></a> [as2\_image\_name](#input\_as2\_image\_name) | AS2 image to deploy | `string` | n/a | yes |
+| <a name="input_as2_instance_type"></a> [as2\_instance\_type](#input\_as2\_instance\_type) | AS2 instance type | `string` | `"stream.standard.medium"` | no |
+| <a name="input_as2_stack_description"></a> [as2\_stack\_description](#input\_as2\_stack\_description) | Stack description | `string` | `"ARC batch process stack"` | no |
+| <a name="input_as2_stack_display_name"></a> [as2\_stack\_display\_name](#input\_as2\_stack\_display\_name) | Stack diplay name | `string` | `"ARC batch process stack"` | no |
+| <a name="input_as2_stack_name"></a> [as2\_stack\_name](#input\_as2\_stack\_name) | Stack name | `string` | `"ARC-batch-stack"` | no |
 | <a name="input_compute_environments"></a> [compute\_environments](#input\_compute\_environments) | Compute environments | `string` | `"fargate"` | no |
 | <a name="input_compute_resources_max_vcpus"></a> [compute\_resources\_max\_vcpus](#input\_compute\_resources\_max\_vcpus) | Max VCPUs resources | `number` | `1` | no |
 | <a name="input_container_image_url"></a> [container\_image\_url](#input\_container\_image\_url) | Container image URL | `string` | `"public.ecr.aws/docker/library/busybox:latest"` | no |

@@ -54,3 +54,62 @@ variable "container_memory" {
   description = "Containter Memory resources"
   default     = 2048
 }
+
+# AppStream vars
+variable "as2_desired_instance_num" {
+  type        = number
+  description = "Desired number of AS2 instances"
+  default     = 1
+}
+
+variable "as2_fleet_name" {
+  type        = string
+  description = "Fleet name"
+  default     = "ARC-batch-fleet"
+}
+
+variable "as2_fleet_description" {
+  type        = string
+  description = "Fleet description"
+  default     = "ARC batch process fleet"
+}
+
+variable "as2_fleet_display_name" {
+  type        = string
+  description = "Fleet diplay name"
+  default     = "ARC batch process fleet"
+}
+
+#variable "as2_fleet_sg_ids" {
+#  type        = list(string)
+#  description = "Security group IDs for fleet"
+#}
+
+variable "as2_image_name" {
+  type        = string
+  description = "AS2 image to deploy"
+}
+
+variable "as2_instance_type" {
+  type        = string
+  description = "AS2 instance type"
+  default     = "stream.standard.medium"
+}
+
+variable "as2_stack_name" {
+  type        = string
+  description = "Stack name"
+  default     = "ARC-batch-stack"
+}
+
+variable "as2_stack_description" {
+  type        = string
+  description = "Stack description"
+  default     = "ARC batch process stack"
+}
+
+variable "as2_stack_display_name" {
+  type        = string
+  description = "Stack diplay name"
+  default     = "ARC batch process stack"
+}
