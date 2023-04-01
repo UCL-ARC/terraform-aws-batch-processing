@@ -70,7 +70,7 @@ resource "aws_appstream_stack" "this" {
 }
 
 # Associates fleet to stack
-resource "aws_appstream_fleet_stack_association" "example" {
+resource "aws_appstream_fleet_stack_association" "this" {
   fleet_name = aws_appstream_fleet.this.name
   stack_name = aws_appstream_stack.this.name
 }
