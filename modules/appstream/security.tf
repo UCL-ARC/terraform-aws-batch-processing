@@ -32,7 +32,7 @@ data "aws_iam_policy_document" "instance_assume_role_policy" {
 }
 
 resource "aws_iam_policy" "s3_policy" {
-  name        = "ARC-S3-Upload-${local.title_env}"
+  name        = "ARC-AS2-ReadOnly-S3"
   description = "Allows reading of s3 upload bucket"
   policy      = templatefile("${path.module}/templates/s3-read-only.json.tmpl", { s3_arn = var.s3_arn })
 }
