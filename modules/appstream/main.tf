@@ -68,3 +68,9 @@ resource "aws_appstream_stack" "this" {
     settings_group = "SettingsGroup"
   }
 }
+
+# Associates fleet to stack
+resource "aws_appstream_fleet_stack_association" "example" {
+  fleet_name = aws_appstream_fleet.this.name
+  stack_name = aws_appstream_stack.this.name
+}
