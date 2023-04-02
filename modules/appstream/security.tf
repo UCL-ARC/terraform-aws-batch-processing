@@ -22,6 +22,7 @@ resource "aws_security_group_rule" "s3_gateway_egress" {
 
 data "aws_iam_policy_document" "instance_assume_role_policy" {
   statement {
+    effect  = "Allow"
     actions = ["sts:AssumeRole"]
 
     principals {
