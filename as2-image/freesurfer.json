@@ -1,0 +1,15 @@
+{
+    "ImageBuilderName": "AS2_Automation_Linux_Test",
+    "ImageBuilderType": "stream.standard.medium",
+    "ImageOutputPrefix": "AS2_Automation_Linux_Test",
+    "DeleteBuilder": true,
+    "ImageBuilderCommands": [
+      "sudo yum -y update",
+      "mkdir /tmp/FreeSurfer",
+      "wget -P /tmp/FreeSurfer https://surfer.nmr.mgh.harvard.edu/pub/dist/freesurfer/7.1.1/freesurfer-CentOS8-7.1.1-1.x86_64.rpm",
+      "sudo yum -y localinstall /tmp/FreeSurfer/freesurfer-CentOS8-7.1.1-1.x86_64.rpm",
+      "sudo rm /tmp/FreeSurfer/freesurfer-CentOS8-7.1.1-1.x86_64.rpm -f",
+      "sudo rm -r -f /tmp/FreeSurfer",
+      "sudo AppStreamImageAssistant add-application --name freeview --absolute-app-path /usr/local/freesurfer/7.1.1-1/bin/freeview --display-name freeview"
+    ]
+  }
