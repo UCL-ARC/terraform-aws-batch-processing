@@ -26,7 +26,7 @@ data "aws_iam_policy_document" "instance_assume_role_policy" {
 
     principals {
       type        = "Service"
-      identifiers = ["ec2.amazonaws.com"]
+      identifiers = ["appstream.amazonaws.com"]
     }
   }
 }
@@ -43,10 +43,4 @@ resource "aws_iam_role" "as2_role" {
   managed_policy_arns = [
     aws_iam_policy.s3_policy.arn
   ]
-}
-
-# Configure IAM instance profile.
-resource "aws_iam_instance_profile" "as2_instance" {
-  name = "ARCAS2RoleForInstances"
-  role = aws_iam_role.as2_role.name
 }
