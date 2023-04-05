@@ -46,12 +46,18 @@ resource "aws_lambda_function" "lambda_s3_handler" {
   source_code_hash = data.archive_file.lambda_zip_file.output_base64sha256
   handler          = "index.handler"
   role             = aws_iam_role.iam_for_lambda.arn
-  runtime          = "nodejs14.x"
+  runtime          = "python3.9"
+
+  environment {
+    variables = {
+      SFN_ARN = var.sfn_state_machine_arn
+    }
+  }
 }
 
 data "archive_file" "lambda_zip_file" {
   type        = "zip"
-  source_file = "${path.module}/src/index.js"
+  source_file = "${path.module}/src/lambda-invoke-step-function.py"
   output_path = "${path.module}/lambda.zip"
 }
 
@@ -88,7 +94,15 @@ EOF
         "Resource": [ 
             "arn:aws:logs:*:*:*" 
         ]
+    }, 
+    {
+        "Effect": "Allow",
+        "Action": [
+                "states:StartExecution"
+            ],
+        "Resource" : "${var.sfn_state_machine_arn}"
     }
+  ]
   ]
 }
 EOF

@@ -18,9 +18,10 @@ module "vpc" {
 }
 
 module "s3_upload" {
-  source      = "./modules/s3_upload"
-  region      = var.region
-  bucket_name = "${var.solution_name}-upload"
+  source                = "./modules/s3_upload"
+  region                = var.region
+  bucket_name           = "${var.solution_name}-upload"
+  sfn_state_machine_arn = module.step_function.sfn_state_machine_arn
 }
 
 module "efs" {
@@ -45,4 +46,8 @@ module "batch" {
   container_vcpu              = var.container_vcpu
   container_memory            = var.container_memory
   efs_id                      = module.efs.efs_id
+}
+
+module "step_function" {
+  source = "./modules/step_function"
 }

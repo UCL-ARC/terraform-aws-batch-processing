@@ -15,3 +15,8 @@ variable "bucket_name" {
   type        = string
   description = "Overall name for the bucket"
 }
+
+variable "sfn_state_machine_arn" {
+  type        = string
+  description = "Step Function ARN"
+}
