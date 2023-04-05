@@ -86,10 +86,16 @@ module "batch" {
       propagate_tags        = true
       platform_capabilities = [upper("${var.compute_environments}")]
 
-      container_properties = templatefile("${path.module}/src/template_container.json", {
-        container_image  = var.container_image_url
-        container_vcpu   = var.container_vcpu
-        container_memory = var.container_memory
+      container_properties = jsonencode({
+        command = ["ls", "-la"],
+        image   = "${var.container_image_url}",
+        fargatePlatformConfiguration = {
+          platformVersion = "LATEST"
+        },
+        resourceRequirements = [
+          { type = "VCPU", value = tostring(var.container_vcpu) },
+          { type = "MEMORY", value = tostring(var.container_memory) }
+        ],
         executionRoleArn = aws_iam_role.ecs_task_execution_role.arn
       })
 
