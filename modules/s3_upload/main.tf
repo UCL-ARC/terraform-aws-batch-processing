@@ -63,7 +63,7 @@ data "archive_file" "lambda_zip_file" {
 
 resource "aws_iam_role" "iam_for_lambda" {
   name               = "iam_for_lambda"
-  assume_role_policy = aws_iam_policy.policydocument
+  assume_role_policy = aws_iam_policy.policydocument.json
 }
 
 resource "aws_iam_policy" "policydocument" {
