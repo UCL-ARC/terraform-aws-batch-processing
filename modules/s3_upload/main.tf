@@ -61,23 +61,16 @@ data "archive_file" "lambda_zip_file" {
   output_path = "${path.module}/lambda.zip"
 }
 
-resource "aws_iam_role" "iam_for_lambda" {
-  name               = "iam_for_lambda"
-  assume_role_policy = aws_iam_policy.policydocument.json
-}
-
-resource "aws_iam_policy" "policydocument" {
-  name   = "lambda-policydocument"
-  policy = data.aws_iam_policy_document.lambda.json
-}
-
-data "aws_iam_policy_document" "lambda" {
+data "aws_iam_policy_document" "lambda_assume_role_policy" {
   statement {
     effect = "Allow"
     actions = [
       "sts:AssumeRole"
     ]
-    resources = ["lambda.amazonaws.com"]
+    principals {
+      type        = "Service"
+      identifiers = ["lambda.amazonaws.com"]
+    }
   }
   statement {
     effect = "Allow"
@@ -88,6 +81,11 @@ data "aws_iam_policy_document" "lambda" {
       "${var.sfn_state_machine_arn}"
     ]
   }
+}
+
+resource "aws_iam_role" "iam_for_lambda" {
+  name               = "iam_for_lambda"
+  assume_role_policy = aws_iam_policy_document.lambda_assume_role_policy.json
 }
 
 resource "aws_lambda_permission" "allow_bucket_invoke_lambda" {
