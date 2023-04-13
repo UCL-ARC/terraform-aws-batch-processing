@@ -86,23 +86,12 @@ EOF
   "Version": "2012-10-17",
   "Statement": [
     {
-        "Sid": "AllowLambdaFunctionToCreateLogs",
-        "Action": [ 
-            "logs:*" 
-        ],
-        "Effect": "Allow",
-        "Resource": [ 
-            "arn:aws:logs:*:*:*" 
-        ]
-    }, 
-    {
         "Effect": "Allow",
         "Action": [
                 "states:StartExecution"
             ],
         "Resource" : "${var.sfn_state_machine_arn}"
     }
-  ]
   ]
 }
 EOF

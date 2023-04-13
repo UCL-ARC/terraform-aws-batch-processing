@@ -49,9 +49,9 @@ module "batch" {
 }
 
 module "step_function" {
-  source               = "./modules/step_function"
+  source = "./modules/step_function"
 }
-  
+
 module "appstream" {
   source               = "./modules/appstream"
   desired_instance_num = var.as2_desired_instance_num
