@@ -19,6 +19,7 @@ No providers.
 | <a name="module_batch"></a> [batch](#module\_batch) | ./modules/batch | n/a |
 | <a name="module_efs"></a> [efs](#module\_efs) | ./modules/efs | n/a |
 | <a name="module_s3_upload"></a> [s3\_upload](#module\_s3\_upload) | ./modules/s3_upload | n/a |
+| <a name="module_step_function"></a> [step\_function](#module\_step\_function) | ./modules/step_function | n/a |
 | <a name="module_vpc"></a> [vpc](#module\_vpc) | ./modules/vpc | n/a |
 
 ## Resources
