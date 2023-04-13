@@ -62,49 +62,26 @@ data "archive_file" "lambda_zip_file" {
 }
 
 resource "aws_iam_role" "iam_for_lambda" {
-  name = "iam_for_lambda"
+  name               = "iam_for_lambda"
+  assume_role_policy = data.aws_iam_policy_document.lambda
+}
 
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": "sts:AssumeRole",
-      "Principal": {
-        "Service": "lambda.amazonaws.com"
-      },
-      "Effect": "Allow",
-      "Sid": ""
-    }
-  ]
-}
-EOF
-  inline_policy {
-    name   = "lambda_logs_policy"
-    policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-        "Sid": "AllowLambdaFunctionToCreateLogs",
-        "Action": [ 
-            "logs:*" 
-        ],
-        "Effect": "Allow",
-        "Resource": [ 
-            "arn:aws:logs:*:*:*" 
-        ]
-    }, 
-    {
-        "Effect": "Allow",
-        "Action": [
-                "states:StartExecution"
-            ],
-        "Resource" : "${var.sfn_state_machine_arn}"
-    }
-  ]
-}
-EOF
+data "aws_iam_policy_document" "lambda" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "sts:AssumeRole"
+    ]
+    resources = ["lambda.amazonaws.com"]
+  }
+  statement {
+    effect = "Allow"
+    actions = [
+      "states:StartExecution"
+    ]
+    resources = [
+      "${var.sfn_state_machine_arn}"
+    ]
   }
 }
 
