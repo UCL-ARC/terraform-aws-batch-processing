@@ -103,7 +103,6 @@ EOF
         "Resource" : "${var.sfn_state_machine_arn}"
     }
   ]
-  ]
 }
 EOF
   }
