@@ -12,16 +12,9 @@ module "s3_upload_bucket" {
   version = "3.6.1"
 
   bucket = local.s3_bucket_name
-  acl    = "private"
-
   versioning = {
     enabled = true
   }
-
-  block_public_acls       = true
-  block_public_policy     = true
-  ignore_public_acls      = true
-  restrict_public_buckets = true
 
 }
 
@@ -44,9 +37,9 @@ resource "aws_lambda_function" "lambda_s3_handler" {
   function_name    = "process-s3-new-objects"
   filename         = data.archive_file.lambda_zip_file.output_path
   source_code_hash = data.archive_file.lambda_zip_file.output_base64sha256
-  handler          = "index.handler"
+  handler          = "lambda-invoke-step-function.lambda_handler"
   role             = aws_iam_role.role_for_lambda.arn
-  runtime          = "python3.9"
+  runtime          = "python3.8"
 
   environment {
     variables = {
