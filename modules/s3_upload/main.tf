@@ -45,7 +45,7 @@ resource "aws_lambda_function" "lambda_s3_handler" {
   filename         = data.archive_file.lambda_zip_file.output_path
   source_code_hash = data.archive_file.lambda_zip_file.output_base64sha256
   handler          = "index.handler"
-  role             = aws_iam_role.iam_for_lambda.arn
+  role             = aws_iam_role.role_for_lambda.arn
   runtime          = "python3.9"
 
   environment {
@@ -61,41 +61,52 @@ data "archive_file" "lambda_zip_file" {
   output_path = "${path.module}/lambda.zip"
 }
 
-resource "aws_iam_role" "iam_for_lambda" {
-  name = "iam_for_lambda"
+data "aws_iam_policy_document" "assume_role" {
+  statement {
+    effect = "Allow"
 
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": "sts:AssumeRole",
-      "Principal": {
-        "Service": "lambda.amazonaws.com"
-      },
-      "Effect": "Allow",
-      "Sid": ""
+    principals {
+      type        = "Service"
+      identifiers = ["lambda.amazonaws.com"]
     }
-  ]
-}
-EOF
-  inline_policy {
-    name   = "lambda_logs_policy"
-    policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-        "Effect": "Allow",
-        "Action": [
-                "states:StartExecution"
-            ],
-        "Resource" : "${var.sfn_state_machine_arn}"
-    }
-  ]
-}
-EOF
+
+    actions = ["sts:AssumeRole"]
   }
+}
+
+resource "aws_iam_role" "role_for_lambda" {
+  name               = "lambda-role"
+  assume_role_policy = data.aws_iam_policy_document.assume_role.json
+}
+
+resource "aws_iam_policy" "lambda_sfn_policy" {
+  name = "lambda_sfn_execution"
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Action   = ["states:StartExecution"]
+        Effect   = "Allow"
+        Resource = "${var.sfn_state_machine_arn}"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "attachment" {
+  for_each = toset([
+    "arn:aws:iam::aws:policy/AWSLambdaVPCAccessExecutionRole",
+    "arn:aws:iam::aws:policy/AmazonElasticFileSystemClientFullAccess",
+    "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+  ])
+
+  role       = aws_iam_role.role_for_lambda.name
+  policy_arn = each.value
+}
+
+resource "aws_iam_role_policy_attachment" "sfn-attach" {
+  role       = aws_iam_role.role_for_lambda.name
+  policy_arn = aws_iam_policy.lambda_sfn_policy.arn
 }
 
 resource "aws_lambda_permission" "allow_bucket_invoke_lambda" {
