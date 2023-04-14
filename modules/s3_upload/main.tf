@@ -70,6 +70,10 @@ data "aws_iam_policy_document" "assume_role" {
 resource "aws_iam_role" "role_for_lambda" {
   name               = "lambda-role"
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
+  managed_policy_arns = [aws_iam_policy.lambda_sfn_policy.arn,
+    "arn:aws:iam::aws:policy/AmazonS3FullAccess",
+    "arn:aws:iam::aws:policy/AmazonElasticFileSystemClientFullAccess",
+  "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"]
 }
 
 resource "aws_iam_policy" "lambda_sfn_policy" {
@@ -84,26 +88,6 @@ resource "aws_iam_policy" "lambda_sfn_policy" {
       }
     ]
   })
-}
-
-resource "aws_iam_role_policy_attachment" "sfn-attach" {
-  role       = aws_iam_role.role_for_lambda.name
-  policy_arn = aws_iam_policy.lambda_sfn_policy.arn
-}
-
-resource "aws_iam_role_policy_attachment" "s3-attach" {
-  role       = aws_iam_role.role_for_lambda.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
-}
-
-resource "aws_iam_role_policy_attachment" "efs-attach" {
-  role       = aws_iam_role.role_for_lambda.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonElasticFileSystemClientFullAccess"
-}
-
-resource "aws_iam_role_policy_attachment" "vpc-attach" {
-  role       = aws_iam_role.role_for_lambda.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
 }
 
 resource "aws_lambda_permission" "allow_bucket_invoke_lambda" {
