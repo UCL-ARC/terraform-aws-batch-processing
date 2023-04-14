@@ -95,7 +95,7 @@ resource "aws_iam_policy" "lambda_sfn_policy" {
 
 resource "aws_iam_role_policy_attachment" "attachment" {
   for_each = toset([
-    aws_iam_policy.lambda_sfn_policy.arn,
+    "${aws_iam_policy.lambda_sfn_policy.arn}",
     "arn:aws:iam::aws:policy/AWSLambdaVPCAccessExecutionRole",
     "arn:aws:iam::aws:policy/AmazonElasticFileSystemClientFullAccess",
     "arn:aws:iam::aws:policy/AmazonS3FullAccess"
