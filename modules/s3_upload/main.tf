@@ -94,9 +94,7 @@ resource "aws_iam_policy" "lambda_sfn_policy" {
 }
 
 resource "aws_iam_role_policy_attachment" "attachment" {
-  depends_on = [aws_iam_policy.lambda_sfn_policy]
   for_each = toset([
-    aws_iam_policy.lambda_sfn_policy.arn,
     "arn:aws:iam::aws:policy/AWSLambdaVPCAccessExecutionRole",
     "arn:aws:iam::aws:policy/AmazonElasticFileSystemClientFullAccess",
     "arn:aws:iam::aws:policy/AmazonS3FullAccess"
@@ -104,6 +102,11 @@ resource "aws_iam_role_policy_attachment" "attachment" {
 
   role       = aws_iam_role.role_for_lambda.name
   policy_arn = each.value
+}
+
+resource "aws_iam_role_policy_attachment" "sfn-attach" {
+  role       = aws_iam_role.role_for_lambda.name
+  policy_arn = aws_iam_policy.lambda_sfn_policy.arn
 }
 
 resource "aws_lambda_permission" "allow_bucket_invoke_lambda" {
