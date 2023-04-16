@@ -95,7 +95,7 @@ resource "aws_iam_policy" "lambda_sfn_policy" {
 }
 
 resource "aws_iam_policy" "s3_policy" {
-  name        = "ARC-AS2-ReadOnly-S3"
+  name        = "ARC-lambda-S3"
   description = "Allows reading of s3 upload bucket"
   policy      = templatefile("${path.module}/templates/s3-read-only.json.tmpl", { s3_arn = module.s3_upload_bucket.s3_bucket_arn })
 }
