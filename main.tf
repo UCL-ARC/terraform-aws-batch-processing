@@ -71,12 +71,12 @@ module "appstream" {
 }
 
 module "datasync" {
-  source              = "./modules/datasync"
-  private_subnets     = module.vpc.private_subnets
-  s3_arn              = module.s3_upload.s3_arn
-  efs_arn             = module.efs.efs_arn
-  efs_access_points   = module.efs.access_points
-  security_group_arns = module.batch.security_group_arns
+  source                = "./modules/datasync"
+  private_subnets       = module.vpc.private_subnets
+  s3_arn                = module.s3_upload.s3_arn
+  efs_arn               = module.efs.efs_arn
+  efs_access_points_arn = module.efs.access_points.arn
+  security_group_arns   = module.batch.security_group_arns
 }
 
 module "s3_reports" {
