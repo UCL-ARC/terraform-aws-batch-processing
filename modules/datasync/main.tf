@@ -1,4 +1,4 @@
-module "aws_datasync_task" {
+resource "aws_datasync_task" "datasync_task" {
   destination_location_arn = aws_datasync_location_efs.destination.arn
   name                     = "datasync_task"
   source_location_arn      = aws_datasync_location_s3.source.arn
@@ -59,3 +59,4 @@ resource "aws_iam_role_policy_attachment" "datasync-s3-attach" {
    role       = aws_iam_role.role_for_datasync.name
    policy_arn = aws_iam_policy.datasync_policy.arn
  }
+ 
