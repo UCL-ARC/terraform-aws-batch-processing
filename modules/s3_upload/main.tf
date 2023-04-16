@@ -67,14 +67,6 @@ data "aws_iam_policy_document" "assume_role" {
   }
 }
 
-data "aws_iam_policy" "AmazonElasticFileSystemClientFullAccess" {
-  arn = "arn:aws:iam::aws:policy/AmazonElasticFileSystemClientFullAccess"
-}
-
-data "aws_iam_policy" "AWSLambdaVPCAccessExecutionRole" {
-  arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
-}
-
 resource "aws_iam_role" "role_for_lambda" {
   name               = "lambda-role"
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
@@ -94,31 +86,12 @@ resource "aws_iam_policy" "lambda_sfn_policy" {
   })
 }
 
-resource "aws_iam_policy" "s3_policy" {
-  name        = "ARC-lambda-S3"
-  description = "Allows reading of s3 upload bucket"
-  policy      = templatefile("${path.module}/templates/s3-read-only.json.tmpl", { s3_arn = module.s3_upload_bucket.s3_bucket_arn })
-}
 
 resource "aws_iam_role_policy_attachment" "sfn-attach" {
-   role       = aws_iam_role.role_for_lambda.name
-   policy_arn = aws_iam_policy.lambda_sfn_policy.arn
- }
+  role       = aws_iam_role.role_for_lambda.name
+  policy_arn = aws_iam_policy.lambda_sfn_policy.arn
+}
 
- resource "aws_iam_role_policy_attachment" "s3-attach" {
-   role       = aws_iam_role.role_for_lambda.name
-   policy_arn = aws_iam_policy.s3_policy.arn
- }
-
- resource "aws_iam_role_policy_attachment" "efs-attach" {
-   role       = aws_iam_role.role_for_lambda.name
-   policy_arn = data.aws_iam_policy.AmazonElasticFileSystemClientFullAccess.arn
- }
-
- resource "aws_iam_role_policy_attachment" "vpc-attach" {
-   role       = aws_iam_role.role_for_lambda.name
-   policy_arn = data.aws_iam_policy.AWSLambdaVPCAccessExecutionRole.arn
- }
 
 resource "aws_lambda_permission" "allow_bucket_invoke_lambda" {
   statement_id  = "AllowExecutionFromS3Bucket"

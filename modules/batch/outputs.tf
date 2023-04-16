@@ -86,3 +86,12 @@ output "job_definitions" {
   description = "Map of job defintions created and their associated attributes"
   value       = module.batch.job_definitions
 }
+
+################################################################################
+# Security Group
+################################################################################
+
+output "security_group_arns" {
+  description = "Map of job defintions created and their associated attributes"
+  value       = module.vpc_endpoint_security_group.security_group_arn
+}
