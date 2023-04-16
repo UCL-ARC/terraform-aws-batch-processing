@@ -49,7 +49,8 @@ module "batch" {
 }
 
 module "step_function" {
-  source = "./modules/step_function"
+  source            = "./modules/step_function"
+  datasync_task_arn = module.datasync.datasync_task_arn
 }
 
 module "appstream" {

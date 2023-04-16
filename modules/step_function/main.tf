@@ -1,12 +1,13 @@
 locals {
   definition_template = <<EOF
 {
-  "Comment": "A Hello World example of the Amazon States Language using Pass states",
-  "StartAt": "Hello",
+  "Comment": "Datasync Task",
+  "StartAt": "Sync",
   "States": {
-    "Hello": {
-      "Type": "Pass",
-      "Result": "Hello",
+    "Sync": {
+      "Type": "Task",
+      "End" : true,
+      "Resource" : "${var.datasync_task_arn}",
       "Next": "World"
     },
     "World": {
