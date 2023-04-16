@@ -14,6 +14,7 @@
                 "ssm:*",
                 "sqs:*",
                 "iam:*",
+                "datasync:*",
                 "elasticloadbalancing:*",
                 "autoscaling:*",
                 "cloudwatch:*",
