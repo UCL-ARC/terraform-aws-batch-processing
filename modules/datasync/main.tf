@@ -10,7 +10,7 @@ resource "aws_datasync_task" "datasync_task" {
 
 
 resource "aws_datasync_location_s3" "source" {
-  s3_bucket_arn = var.aws_s3_bucket.arn
+  s3_bucket_arn = var.s3_arn
   subdirectory  = "/example/"
 
   s3_config {

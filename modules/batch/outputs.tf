@@ -93,5 +93,5 @@ output "job_definitions" {
 
 output "security_group_arns" {
   description = "Map of job defintions created and their associated attributes"
-  value       = module.vpc_endpoint_security_group.security_group.arns
+  value       = module.vpc_endpoint_security_group.arn
 }
