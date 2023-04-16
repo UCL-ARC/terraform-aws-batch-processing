@@ -69,3 +69,9 @@ module "appstream" {
 
   s3_arn = module.s3_upload.s3_arn
 }
+
+module "s3_reports" {
+  source                = "./modules/s3_reports"
+  region                = var.region
+  bucket_name           = "${var.solution_name}-reports"
+}
