@@ -20,6 +20,6 @@ variable "efs_access_points" {
 }
 
 variable "security_group_arns" {
-  type        = list(string)
+  type        = string
   description = "Security group arns"
 }

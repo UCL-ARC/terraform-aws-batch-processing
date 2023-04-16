@@ -88,9 +88,9 @@ resource "aws_iam_policy" "lambda_sfn_policy" {
 
 
 resource "aws_iam_role_policy_attachment" "sfn-attach" {
-   role       = aws_iam_role.role_for_lambda.name
-   policy_arn = aws_iam_policy.lambda_sfn_policy.arn
- }
+  role       = aws_iam_role.role_for_lambda.name
+  policy_arn = aws_iam_policy.lambda_sfn_policy.arn
+}
 
 
 resource "aws_lambda_permission" "allow_bucket_invoke_lambda" {

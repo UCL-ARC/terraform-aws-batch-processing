@@ -26,8 +26,12 @@ resource "aws_datasync_location_efs" "destination" {
 
   ec2_config {
     security_group_arns = [var.security_group_arns]
-    subnet_arn          = var.private_subnets.arn
+    subnet_arn          = data.aws_subnet.selected.arn
   }
+}
+
+data "aws_subnet" "selected" {
+  id = element(var.private_subnets, 0)
 }
 
 data "aws_iam_policy_document" "assume_role" {
@@ -56,7 +60,7 @@ resource "aws_iam_policy" "datasync_policy" {
 }
 
 resource "aws_iam_role_policy_attachment" "datasync-s3-attach" {
-   role       = aws_iam_role.role_for_datasync.name
-   policy_arn = aws_iam_policy.datasync_policy.arn
- }
+  role       = aws_iam_role.role_for_datasync.name
+  policy_arn = aws_iam_policy.datasync_policy.arn
+}
  
