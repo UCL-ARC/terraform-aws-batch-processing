@@ -71,7 +71,7 @@ module "appstream" {
 }
 
 module "s3_reports" {
-  source                = "./modules/s3_reports"
-  region                = var.region
-  bucket_name           = "${var.solution_name}-reports"
+  source      = "./modules/s3_reports"
+  region      = var.region
+  bucket_name = "${var.solution_name}-reports"
 }
