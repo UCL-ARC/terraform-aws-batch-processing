@@ -94,25 +94,12 @@ resource "aws_iam_policy" "lambda_sfn_policy" {
   })
 }
 
-resource "aws_iam_policy" "AmazonS3Access" {
-  name = "lambda_s3_access"
-  policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [
-      {
-        Action   = [
-          "s3:GetObject",
-          "s3:ListBucket"
-        ]
-        Effect   = "Allow"
-        Resource = [
-          "${module.s3_upload_bucket.s3_bucket_arn}",
-          "${module.s3_upload_bucket.s3_bucket_arn}/*"
-        ]
-      }
-    ]
-  })
+resource "aws_iam_policy" "s3_policy" {
+  name        = "ARC-AS2-ReadOnly-S3"
+  description = "Allows reading of s3 upload bucket"
+  policy      = templatefile("${path.module}/templates/s3-read-only.json.tmpl", { s3_arn = module.s3_upload_bucket.s3_bucket_arn })
 }
+
 resource "aws_iam_role_policy_attachment" "sfn-attach" {
    role       = aws_iam_role.role_for_lambda.name
    policy_arn = aws_iam_policy.lambda_sfn_policy.arn
@@ -120,7 +107,7 @@ resource "aws_iam_role_policy_attachment" "sfn-attach" {
 
  resource "aws_iam_role_policy_attachment" "s3-attach" {
    role       = aws_iam_role.role_for_lambda.name
-   policy_arn = aws_iam_policy.AmazonS3Access.arn
+   policy_arn = aws_iam_policy.s3_policy.arn
  }
 
  resource "aws_iam_role_policy_attachment" "efs-attach" {
