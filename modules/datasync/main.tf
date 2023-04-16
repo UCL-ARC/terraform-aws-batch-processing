@@ -19,7 +19,6 @@ resource "aws_datasync_location_s3" "source" {
 }
 
 resource "aws_datasync_location_efs" "destination" {
-  access_point_arn = var.efs_access_points_arn
   # The below example uses aws_efs_mount_target as a reference to ensure a mount target already exists when resource creation occurs.
   # You can accomplish the same behavior with depends_on or an aws_efs_mount_target data source reference.
   efs_file_system_arn = var.efs_arn
