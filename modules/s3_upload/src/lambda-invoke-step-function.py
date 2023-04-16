@@ -9,7 +9,7 @@ client = boto3.client('stepfunctions')
 s3 = boto3.client("s3")
 
 sfnArn = os.environ["SFN_ARN"]
-EFSMount = "/mnt/efs"
+EFSMount = "/mnt"
 TempDir = "/tmp"
 
 def lambda_handler(event, context):

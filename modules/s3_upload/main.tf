@@ -67,10 +67,6 @@ data "aws_iam_policy_document" "assume_role" {
   }
 }
 
-data "aws_iam_policy" "AmazonS3FullAccess" {
-  arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
-}
-
 data "aws_iam_policy" "AmazonElasticFileSystemClientFullAccess" {
   arn = "arn:aws:iam::aws:policy/AmazonElasticFileSystemClientFullAccess"
 }
@@ -98,6 +94,25 @@ resource "aws_iam_policy" "lambda_sfn_policy" {
   })
 }
 
+resource "aws_iam_policy" "AmazonS3Access" {
+  name = "lambda_s3_access"
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Action   = [
+          "s3:GetObject",
+          "s3:ListBucket"
+        ]
+        Effect   = "Allow"
+        Resource = [
+          "${module.s3_upload_bucket.s3_bucket_arn}",
+          "${module.s3_upload_bucket.s3_bucket_arn}/*"
+        ]
+      }
+    ]
+  })
+}
 resource "aws_iam_role_policy_attachment" "sfn-attach" {
    role       = aws_iam_role.role_for_lambda.name
    policy_arn = aws_iam_policy.lambda_sfn_policy.arn
@@ -105,7 +120,7 @@ resource "aws_iam_role_policy_attachment" "sfn-attach" {
 
  resource "aws_iam_role_policy_attachment" "s3-attach" {
    role       = aws_iam_role.role_for_lambda.name
-   policy_arn = data.aws_iam_policy.AmazonS3FullAccess.arn
+   policy_arn = aws_iam_policy.AmazonS3Access.arn
  }
 
  resource "aws_iam_role_policy_attachment" "efs-attach" {
