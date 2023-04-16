@@ -70,10 +70,6 @@ data "aws_iam_policy_document" "assume_role" {
 resource "aws_iam_role" "role_for_lambda" {
   name               = "lambda-role"
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
-  managed_policy_arns = [aws_iam_policy.lambda_sfn_policy.arn,
-    "arn:aws:iam::aws:policy/AmazonS3FullAccess",
-    "arn:aws:iam::aws:policy/AmazonElasticFileSystemClientFullAccess",
-  "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"]
 }
 
 resource "aws_iam_policy" "lambda_sfn_policy" {
@@ -88,6 +84,23 @@ resource "aws_iam_policy" "lambda_sfn_policy" {
       }
     ]
   })
+}
+
+# Define policy ARNs as list
+variable "iam_policy_arn_list" {
+  description = "IAM Policy to be attached to role"
+  type = "list"
+  default = ["${aws_iam_policy_lambda_sfn_policy.arn}",
+    "arn:aws:iam::aws:policy/AmazonS3FullAccess",
+    "arn:aws:iam::aws:policy/AmazonElasticFileSystemClientFullAccess",
+    "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"]
+}
+
+# Then parse through the list using count
+resource "aws_iam_role_policy_attachment" "role-policy-attachment" {
+  role       = "${aws_iam_role.role_for_lambda.name}"
+  count      = "${length(var.iam_policy_arn_list)}"
+  policy_arn = "${var.iam_policy_arn_list[count.index]}"
 }
 
 resource "aws_lambda_permission" "allow_bucket_invoke_lambda" {
