@@ -106,8 +106,8 @@ resource "aws_iam_policy" "AmazonS3Access" {
         ]
         Effect   = "Allow"
         Resource = [
-          "${module.s3_upload_bucket.arn}",
-          "${module.s3_upload_bucket.arn}/*"
+          "${module.s3_upload_bucket.s3_bucket_arn}",
+          "${module.s3_upload_bucket.s3_bucket_arn}/*"
         ]
       }
     ]
