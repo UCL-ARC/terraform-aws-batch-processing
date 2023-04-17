@@ -1,8 +1,11 @@
 locals {
   account_id = data.aws_caller_identity.current.account_id
+  job_definition = var.batch_job_definitions["name"]
+  job_queue = var.batch_job_queues["job_queues"]
 }
 
 data "aws_caller_identity" "current" {}
+
 
 module "step_function" {
   source = "terraform-aws-modules/step-functions/aws"
@@ -18,9 +21,9 @@ module "step_function" {
         "End": true,
         "Resource": "arn:aws:states:::batch:submitJob.sync",
         "Parameters": {
-          "JobDefinition": "${lookup(var.batch_job_definitions, "name", "arc-batch").arn}",
+          "JobDefinition": "${local.job_definition.arn}",
           "JobName": "Test Batch",
-          "JobQueue": "${lookup(var.batch_job_queues, "job_queues", "HighPriority").arn}"
+          "JobQueue": "${local.job_queue.arn}"
           "JobName": "example",
           "ShareIdentifier": "test"
         }
