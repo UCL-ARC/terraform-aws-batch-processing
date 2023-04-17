@@ -85,6 +85,7 @@ module "batch" {
       name                  = local.name
       propagate_tags        = true
       platform_capabilities = [upper("${var.compute_environments}")]
+      schedulingPriority    = 99
 
       container_properties = jsonencode({
         command = ["ls", "-la"],
