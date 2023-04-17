@@ -17,7 +17,6 @@ No providers.
 |------|--------|---------|
 | <a name="module_appstream"></a> [appstream](#module\_appstream) | ./modules/appstream | n/a |
 | <a name="module_batch"></a> [batch](#module\_batch) | ./modules/batch | n/a |
-| <a name="module_datasync"></a> [datasync](#module\_datasync) | ./modules/datasync | n/a |
 | <a name="module_efs"></a> [efs](#module\_efs) | ./modules/efs | n/a |
 | <a name="module_s3_reports"></a> [s3\_reports](#module\_s3\_reports) | ./modules/s3_reports | n/a |
 | <a name="module_s3_upload"></a> [s3\_upload](#module\_s3\_upload) | ./modules/s3_upload | n/a |
