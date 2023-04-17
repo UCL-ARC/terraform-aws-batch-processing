@@ -7,13 +7,7 @@ locals {
     "BATCH_JOB": {
       "Type": "Task",
       "End" : true,
-      "Resource" : "${var.batch_task_arn}",
-      "Next": "World"
-      },
-    "World": {
-      "Type": "Pass",
-      "Result": "World",
-      "End": true
+      "Resource" : "${var.batch_task_arn}"
     }
   }
 }
