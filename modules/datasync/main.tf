@@ -25,13 +25,10 @@ resource "aws_datasync_location_efs" "destination" {
 
   ec2_config {
     security_group_arns = [var.security_group_arns]
-    subnet_arn          = data.aws_subnet.selected.arn
+    subnet_arn          = var.efs_mount_target.subnet_arn
   }
 }
 
-data "aws_subnet" "selected" {
-  id = var.efs_dns_name
-}
 
 data "aws_iam_policy_document" "assume_role" {
   statement {

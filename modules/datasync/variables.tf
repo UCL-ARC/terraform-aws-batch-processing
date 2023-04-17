@@ -1,6 +1,6 @@
-variable "efs_dns_name" {
-  type        = string
-  description = "EFS DNS name"
+variable "efs_mount_target" {
+  type        = map
+  description = "EFS Mount Targets"
 }
 
 # ARN of the s3 bucket.
