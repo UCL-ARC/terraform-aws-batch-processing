@@ -50,7 +50,7 @@ module "batch" {
 
 module "step_function" {
   source         = "./modules/step_function"
-  batch_task_arn = module.batch.job_definitions.arn
+  batch_task_arn = module.batch.job_definitions.example.arn
 }
 
 module "appstream" {
