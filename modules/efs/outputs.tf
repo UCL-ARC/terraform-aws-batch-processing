@@ -14,3 +14,11 @@ output "efs_arn" {
   value       = module.efs.arn
   description = "EFS ID"
 }
+output "security_group_arn" {
+  value       = module.efs.security_group_arn
+  description = "EFS security group arn"
+}
+output "dns_name" {
+  value       = module.efs.dns_name
+  description = "EFS dns name"
+}

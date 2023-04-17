@@ -73,10 +73,10 @@ module "appstream" {
 
 module "datasync" {
   source              = "./modules/datasync"
-  private_subnets     = module.vpc.private_subnets
+  efs_dns_name     = module.efs.dns_name
   s3_arn              = module.s3_upload.s3_arn
   efs_arn             = module.efs.efs_arn
-  security_group_arns = module.batch.security_group_arns
+  security_group_arns = module.efs.security_group_arn
 }
 
 module "s3_reports" {

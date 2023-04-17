@@ -1,6 +1,6 @@
-variable "private_subnets" {
-  type        = list(string)
-  description = "VPC private subnets' IDs list"
+variable "efs_dns_name" {
+  type        = string
+  description = "EFS DNS name"
 }
 
 # ARN of the s3 bucket.
