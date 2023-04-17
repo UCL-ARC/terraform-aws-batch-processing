@@ -1,20 +1,14 @@
 locals {
   definition_template = <<EOF
 {
-  "Comment": "Datasync Task",
-  "StartAt": "Sync",
+  "StartAt": "BATCH_JOB",
   "States": {
-    "Sync": {
+    "BATCH_JOB": {
       "Type": "Task",
       "End" : true,
-      "Resource" : "${var.datasync_task_arn}",
-      "Next": "World"
+      "Resource" : "${var.batch_task_arn}"
+      },
     },
-    "World": {
-      "Type": "Pass",
-      "Result": "World",
-      "End": true
-    }
   }
 }
 EOF

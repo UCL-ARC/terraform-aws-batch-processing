@@ -49,8 +49,8 @@ module "batch" {
 }
 
 module "step_function" {
-  source            = "./modules/step_function"
-  datasync_task_arn = module.datasync.datasync_task_arn
+  source         = "./modules/step_function"
+  batch_task_arn = module.batch.job_definitions.example.arn
 }
 
 module "appstream" {
@@ -69,14 +69,6 @@ module "appstream" {
   stack_display_name = var.as2_stack_display_name
 
   s3_arn = module.s3_upload.s3_arn
-}
-
-module "datasync" {
-  source              = "./modules/datasync"
-  private_subnets     = module.vpc.private_subnets
-  s3_arn              = module.s3_upload.s3_arn
-  efs_arn             = module.efs.efs_arn
-  security_group_arns = module.batch.security_group_arns
 }
 
 module "s3_reports" {
