@@ -18,9 +18,9 @@ module "step_function" {
         "End": true,
         "Resource": "arn:aws:states:::batch:submitJob.sync",
         "Parameters": {
-          "JobDefinition": "${var.batch_job_definitions.arn}",
+          "JobDefinition": "${var.batch_job_definitions["name"].arn}",
           "JobName": "Test Batch",
-          "JobQueue": "${var.batch_job_queues.arn}"
+          "JobQueue": "${var.batch_job_queues["job_queues"].arn}"
           "JobName": "example",
           "ShareIdentifier": "test"
         }
