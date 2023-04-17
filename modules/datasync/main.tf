@@ -30,7 +30,7 @@ resource "aws_datasync_location_efs" "destination" {
 }
 
 data "aws_subnet" "selected" {
-  id = element(var.private_subnets, 0)
+  id = var.private_subnets[0]
 }
 
 data "aws_iam_policy_document" "assume_role" {
