@@ -25,13 +25,12 @@ resource "aws_datasync_location_efs" "destination" {
 
   ec2_config {
     security_group_arns = [var.security_group_arns]
-    subnet_arn          = aws_subnet.main.arn
+    subnet_arn          = data.aws_subnet.selected.arn
   }
 }
 
-resource "aws_subnet" "main" {
-  vpc_id     = var.vpc_id
-  cidr_block = var.base_cidr_block
+data "aws_subnet" "selected" {
+  id = var.private_subnets[0]
 }
 
 data "aws_iam_policy_document" "assume_role" {
