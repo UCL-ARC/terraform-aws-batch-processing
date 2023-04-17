@@ -4,7 +4,6 @@ locals {
 
 data "aws_caller_identity" "current" {}
 
-
 module "step_function" {
   source = "terraform-aws-modules/step-functions/aws"
 
