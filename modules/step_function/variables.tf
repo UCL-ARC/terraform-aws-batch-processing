@@ -1,4 +1,4 @@
-variable "datasync_task_arn" {
+variable "batch_task_arn" {
   type        = string
-  description = "Datasync Task arn"
+  description = "Batch Task arn"
 }
