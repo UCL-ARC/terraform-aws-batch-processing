@@ -23,7 +23,7 @@ module "step_function" {
         "Parameters": {
           "JobDefinition": "${local.job_definition.arn}",
           "JobName": "Test Batch",
-          "JobQueue": "${local.job_queue.arn}"
+          "JobQueue": "${local.job_queue.arn}",
           "JobName": "example",
           "ShareIdentifier": "test"
         }
