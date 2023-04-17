@@ -1,19 +1,24 @@
 locals {
   definition_template = <<EOF
 {
+  "Comment": "Example Task",
   "StartAt": "BATCH_JOB",
   "States": {
     "BATCH_JOB": {
       "Type": "Task",
       "End" : true,
-      "Resource" : "${var.batch_task_arn}"
+      "Resource" : "${var.batch_task_arn}",
+      "Next": "World"
       },
-    },
+    "World": {
+      "Type": "Pass",
+      "Result": "World",
+      "End": true
+    }
   }
 }
 EOF
 }
-
 
 module "step_function" {
   source = "terraform-aws-modules/step-functions/aws"
