@@ -10,7 +10,7 @@ resource "random_id" "id" {
 module "s3_upload_bucket" {
   source  = "terraform-aws-modules/s3-bucket/aws"
   version = "3.6.1"
-
+  acl    = "private"
   bucket = local.s3_bucket_name
   versioning = {
     enabled = true
