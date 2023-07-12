@@ -114,7 +114,7 @@ module "batch" {
         }
       }
 
-      attempt_duration_seconds = 0
+      attempt_duration_seconds = 120
       retry_strategy = {
         attempts = 3
         evaluate_on_exit = {
