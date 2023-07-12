@@ -82,10 +82,10 @@ module "batch" {
 
   job_definitions = {
     example = {
-      name                  = local.name
-      propagate_tags        = true
-      platform_capabilities = [upper("${var.compute_environments}")]
-      schedulingPriority    = 99
+      name                       = local.name
+      propagate_tags             = true
+      platform_capabilities      = [upper("${var.compute_environments}")]
+      schedulingPriorityOverride = 99
 
       container_properties = jsonencode({
         command = ["df", "-h"],
@@ -114,7 +114,7 @@ module "batch" {
         }
       }
 
-      attempt_duration_seconds = 120
+      attempt_duration_seconds = 0
       retry_strategy = {
         attempts = 3
         evaluate_on_exit = {
