@@ -7,8 +7,8 @@ resource "random_id" "id" {
 }
 
 module "s3_reports_bucket" {
-  source  = "terraform-aws-modules/s3-bucket/aws"
-  
+  source = "terraform-aws-modules/s3-bucket/aws"
+
   bucket = local.s3_bucket_name
   versioning = {
     enabled = true
