@@ -10,7 +10,7 @@ data "aws_caller_identity" "current" {}
 module "step_function" {
   source = "terraform-aws-modules/step-functions/aws"
 
-  name       = "my-step-function"
+  name       = "sfn-batch-example"
   definition = <<EOF
   {
     "Comment": "Example State Machine",

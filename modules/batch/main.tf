@@ -88,7 +88,7 @@ module "batch" {
       schedulingPriority    = 99
 
       container_properties = jsonencode({
-        command = ["ls", "-la"],
+        command = ["df", "-h"],
         image   = "${var.container_image_url}",
         fargatePlatformConfiguration = {
           platformVersion = "LATEST"
@@ -100,12 +100,12 @@ module "batch" {
         executionRoleArn = aws_iam_role.ecs_task_execution_role.arn
       })
 
-      volume = {
-        name = "service-storage"
+      volumes = {
+        name = "efs"
 
         efs_volume_configuration = {
           file_system_id          = var.efs_id
-          root_directory          = "/opt/data"
+          root_directory          = "/"
           transit_encryption      = "ENABLED"
           transit_encryption_port = 2999
           authorization_config = {
@@ -114,7 +114,7 @@ module "batch" {
         }
       }
 
-      attempt_duration_seconds = 60
+      attempt_duration_seconds = 120
       retry_strategy = {
         attempts = 3
         evaluate_on_exit = {
