@@ -43,28 +43,14 @@ module "step_function" {
 }
 
 
-data "aws_iam_policy_document" "assume_role" {
-  statement {
-    effect = "Allow"
-
-    principals {
-      type        = "Service"
-      identifiers = ["states.amazonaws.com"]
-    }
-
-    actions = ["sts:AssumeRole"]
-  }
-}
-
-resource "aws_iam_role" "role_for_sfn" {
-  name               = "sfn-role"
-  assume_role_policy = data.aws_iam_policy_document.assume_role.json
-}
-
-resource "aws_iam_policy" "sfn_batch_policy" {
+resource "aws_iam_role_policy" "sfn_batch_policy" {
   name = "sfn_batch_execution"
+  role = aws_iam_role.role_for_sfn.id
+
+  # Terraform's "jsonencode" function converts a
+  # Terraform expression result to valid JSON syntax.
   policy = jsonencode({
-    Version = "2012-10-17",
+    Version = "2012-10-17"
     Statement = [
       {
         Action = ["batch:SubmitJob",
@@ -84,7 +70,20 @@ resource "aws_iam_policy" "sfn_batch_policy" {
   })
 }
 
-resource "aws_iam_role_policy_attachment" "batch-attach" {
-  role       = aws_iam_role.role_for_sfn.name
-  policy_arn = aws_iam_policy.sfn_batch_policy.arn
+resource "aws_iam_role" "role_for_sfn" {
+  name = "sfn-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Sid    = ""
+        Principal = {
+          Service = "states.amazonaws.com"
+        }
+      },
+    ]
+  })
 }
