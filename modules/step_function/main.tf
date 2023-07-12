@@ -1,7 +1,7 @@
 locals {
-  account_id = data.aws_caller_identity.current.account_id
+  account_id     = data.aws_caller_identity.current.account_id
   job_definition = var.batch_job_definitions["example"]
-  job_queue = var.batch_job_queues["high_priority"]
+  job_queue      = var.batch_job_queues["high_priority"]
 }
 
 data "aws_caller_identity" "current" {}
@@ -10,7 +10,7 @@ data "aws_caller_identity" "current" {}
 module "step_function" {
   source = "terraform-aws-modules/step-functions/aws"
 
-  name       = "my-step-function"
+  name       = "sfn-batch-example"
   definition = <<EOF
   {
     "Comment": "Example State Machine",

@@ -26,8 +26,8 @@ module "subnet_addrs" {
 }
 
 module "vpc" {
-  source  = "terraform-aws-modules/vpc/aws"
-  
+  source = "terraform-aws-modules/vpc/aws"
+
 
   name = var.solution_name
   cidr = module.subnet_addrs.base_cidr_block

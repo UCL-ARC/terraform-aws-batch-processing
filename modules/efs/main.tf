@@ -72,7 +72,7 @@ module "efs" {
     }
     root_example = {
       root_directory = {
-        path = "/example"
+        path = "/"
         creation_info = {
           owner_gid   = 1001
           owner_uid   = 1001
