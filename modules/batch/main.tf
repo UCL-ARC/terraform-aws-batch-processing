@@ -38,7 +38,7 @@ module "batch" {
         type      = upper("${var.compute_environments}")
         max_vcpus = var.compute_resources_max_vcpus
 
-        security_group_ids = [module.vpc_endpoint_security_group.security_group_id]
+        security_group_ids = [module.batch_security_group.security_group_id]
         subnets            = "${var.private_subnets}"
       }
     }
