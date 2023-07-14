@@ -83,13 +83,13 @@ resource "aws_security_group" "efs_security_group" {
   description = "Allow NFS traffic."
   vpc_id      = var.vpc_id
 
-  ingress = {
+  ingress {
     from_port       = 2049
     to_port         = 2049
     protocol        = "tcp"
     security_groups = [var.batch_security_group]
   }
-  egress = {
+  egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"

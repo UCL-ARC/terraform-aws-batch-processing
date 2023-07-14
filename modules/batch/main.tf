@@ -38,7 +38,7 @@ module "batch" {
         type      = upper("${var.compute_environments}")
         max_vcpus = var.compute_resources_max_vcpus
 
-        security_group_ids = [aws_security_group.batch_security_group.security_group_id]
+        security_group_ids = [aws_security_group.batch_security_group.id]
         subnets            = "${var.private_subnets}"
       }
     }
