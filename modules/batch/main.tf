@@ -143,7 +143,7 @@ resource "aws_security_group" "batch_security_group" {
   name        = "batch_security_group"
   description = "AWS Batch Security Group for batch jobs"
   vpc_id      = var.vpc_id
-  ingress = {
+  ingress {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
@@ -151,7 +151,7 @@ resource "aws_security_group" "batch_security_group" {
     self        = true
   }
 
-  egress = {
+  egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
