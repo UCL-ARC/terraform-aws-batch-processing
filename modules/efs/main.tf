@@ -101,7 +101,7 @@ resource "aws_security_group" "efs_security_group" {
 resource "aws_efs_mount_target" "efs_mount_target" {
   count          = length(var.private_subnets)
   file_system_id = module.efs.id
-  subnet_id      = element(tolist(var.private_subnets.ids), count.index)
+  subnet_id      = element(tolist(var.private_subnets), count.index)
   security_groups = [
     aws_security_group.efs_security_group.id,
     var.batch_security_group
