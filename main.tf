@@ -33,6 +33,7 @@ module "efs" {
   base_cidr_block             = var.vpc_cidr_block
   efs_transition_to_ia_period = var.efs_transition_to_ia_period
   efs_throughput_in_mibps     = var.efs_throughput_in_mibps
+  batch_security_group        = module.batch.batch_security_group
 }
 
 module "batch" {

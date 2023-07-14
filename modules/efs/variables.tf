@@ -35,3 +35,8 @@ variable "efs_throughput_in_mibps" {
   default     = 1
   description = "EFS provisioned throughput in mibps"
 }
+
+variable "batch_security_group" {
+  type        = string
+  description = "Batch security id"
+}
