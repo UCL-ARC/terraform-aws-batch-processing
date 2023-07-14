@@ -41,6 +41,7 @@ module "batch" {
   solution_name               = var.solution_name
   vpc_id                      = module.vpc.vpc_id
   private_subnets             = module.vpc.private_subnets
+  base_cidr_block             = var.vpc_cidr_block
   compute_environments        = var.compute_environments
   compute_resources_max_vcpus = var.compute_resources_max_vcpus
   container_image_url         = var.container_image_url
