@@ -38,7 +38,7 @@ module "batch" {
         type      = upper("${var.compute_environments}")
         max_vcpus = var.compute_resources_max_vcpus
 
-        security_group_ids = [module.batch_security_group.security_group_id]
+        security_group_ids = [aws_security_group.batch_security_group.security_group_id]
         subnets            = "${var.private_subnets}"
       }
     }
@@ -143,7 +143,7 @@ resource "aws_security_group" "batch_security_group" {
   name        = "batch_security_group"
   description = "AWS Batch Security Group for batch jobs"
   vpc_id      = var.vpc_id
-  ingress_with_self = {
+  ingress = {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
@@ -153,7 +153,7 @@ resource "aws_security_group" "batch_security_group" {
 
   egress = {
     from_port   = 0
-    to_port     = 65535
+    to_port     = 0
     protocol    = "-1"
     cidr_blocks = [var.base_cidr_block]
     description = "Outbound to EFS"
