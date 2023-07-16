@@ -37,25 +37,6 @@ module "efs" {
     }
   ]
 
-  # Mount targets / security group
-  mount_targets = {
-    "${var.region}" = {
-      subnet_id = element(var.private_subnets, 0)
-    }
-    "${var.region}" = {
-      subnet_id = element(var.private_subnets, 1)
-    }
-  }
-  security_group_description = "EFS security group"
-  security_group_vpc_id      = var.vpc_id
-  security_group_rules = {
-    vpc = {
-      # relying on the defaults provdied for EFS/NFS (2049/TCP + ingress)
-      description = "NFS ingress from VPC private subnets"
-      cidr_blocks = [var.base_cidr_block]
-    }
-  }
-
   # Access point(s)
   access_points = {
     posix_example = {
@@ -95,6 +76,36 @@ module "efs" {
     Terraform   = "true"
     Environment = "dev"
   }
+}
+
+resource "aws_security_group" "efs_security_group" {
+  name        = "efs_security_group"
+  description = "Allow NFS traffic."
+  vpc_id      = var.vpc_id
+
+  ingress {
+    from_port       = 2049
+    to_port         = 2049
+    protocol        = "tcp"
+    security_groups = [var.batch_security_group]
+  }
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = [var.base_cidr_block]
+    description = "No Outbound Restrictions"
+  }
+}
+
+resource "aws_efs_mount_target" "efs_mount_target" {
+  count          = length(var.private_subnets)
+  file_system_id = module.efs.id
+  subnet_id      = element(tolist(var.private_subnets), count.index)
+  security_groups = [
+    aws_security_group.efs_security_group.id,
+    var.batch_security_group
+  ]
 }
 
 module "kms" {

@@ -10,6 +10,10 @@ variable "private_subnets" {
   type        = list(string)
   description = "VPC private subnets' IDs list"
 }
+variable "base_cidr_block" {
+  type        = string
+  description = "The CIDR block for the VPC"
+}
 variable "compute_environments" {
   type        = string
   description = "Compute environments"

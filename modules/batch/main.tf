@@ -38,7 +38,7 @@ module "batch" {
         type      = upper("${var.compute_environments}")
         max_vcpus = var.compute_resources_max_vcpus
 
-        security_group_ids = [module.vpc_endpoint_security_group.security_group_id]
+        security_group_ids = [aws_security_group.batch_security_group.id]
         subnets            = "${var.private_subnets}"
       }
     }
@@ -139,26 +139,25 @@ module "batch" {
 ################################################################################
 # Supporting Resources
 ################################################################################
-module "vpc_endpoint_security_group" {
-  source  = "terraform-aws-modules/security-group/aws"
-  version = "~> 4.0"
-
-  name        = "${local.name}-vpc-endpoint"
-  description = "Security group for VPC endpoints"
+resource "aws_security_group" "batch_security_group" {
+  name        = "batch_security_group"
+  description = "AWS Batch Security Group for batch jobs"
   vpc_id      = var.vpc_id
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    description = "Container to VPC endpoint service"
+    self        = true
+  }
 
-  ingress_with_self = [
-    {
-      from_port   = 443
-      to_port     = 443
-      protocol    = "tcp"
-      description = "Container to VPC endpoint service"
-      self        = true
-    },
-  ]
-
-  egress_cidr_blocks = ["0.0.0.0/0"]
-  egress_rules       = ["https-443-tcp"]
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = [var.base_cidr_block]
+    description = "Outbound to EFS"
+  }
 }
 
 resource "aws_iam_role" "ecs_task_execution_role" {
