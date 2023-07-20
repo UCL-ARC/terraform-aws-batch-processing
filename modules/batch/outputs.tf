@@ -82,9 +82,9 @@ output "scheduling_policies" {
 # Job Definitions
 ################################################################################
 
-output "job_definitions" {
+output "batch_job_arn" {
   description = "Job defintions created"
-  value       = aws_batch_job_definition.test
+  value       = aws_batch_job_definition.batch_job.arn
 }
 
 ################################################################################
