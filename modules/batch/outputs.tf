@@ -83,8 +83,8 @@ output "scheduling_policies" {
 ################################################################################
 
 output "job_definitions" {
-  description = "Map of job defintions created and their associated attributes"
-  value       = module.batch.job_definitions
+  description = "Job defintions created"
+  value       = aws_batch_job_definition.test
 }
 
 ################################################################################

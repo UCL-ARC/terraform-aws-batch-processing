@@ -85,11 +85,11 @@ resource "aws_batch_job_definition" "test" {
   name = local.name
   type = "container"
 
-  platform_capabilities      = [upper("${var.compute_environments}")]
+  platform_capabilities = [upper("${var.compute_environments}")]
 
   container_properties = jsonencode({
-    command = ["df", "-h"],
-    image   = "${var.container_image_url}"
+    command    = ["df", "-h"],
+    image      = "${var.container_image_url}"
     jobRoleArn = aws_iam_role.ecs_task_execution_role.arn
     fargatePlatformConfiguration = {
       platformVersion = "1.4.0"
@@ -98,7 +98,7 @@ resource "aws_batch_job_definition" "test" {
     resourceRequirements = [
       {
         type  = "VCPU"
-        value = tostring(var.container_vcpu) 
+        value = tostring(var.container_vcpu)
       },
       {
         type  = "MEMORY"
@@ -108,7 +108,7 @@ resource "aws_batch_job_definition" "test" {
 
     volumes = [
       {
-      efs_volume_configuration = {
+        efs_volume_configuration = {
           file_system_id          = var.efs_id
           root_directory          = "/"
           transit_encryption      = "ENABLED"
