@@ -90,7 +90,7 @@ resource "aws_batch_job_definition" "batch_job" {
   container_properties = jsonencode({
     command    = ["df", "-h"],
     image      = "${var.container_image_url}"
-    jobRoleArn = aws_iam_role.ecs_task_execution_role.arn
+    executionRoleArn = aws_iam_role.ecs_task_execution_role.arn
     fargatePlatformConfiguration = {
       platformVersion = "1.4.0"
     }
