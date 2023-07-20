@@ -79,31 +79,36 @@ module "batch" {
       }
     }
   }
+}
 
-  job_definitions = {
-    example = {
-      name                       = local.name
-      propagate_tags             = true
-      platform_capabilities      = [upper("${var.compute_environments}")]
-      schedulingPriorityOverride = 99
+resource "aws_batch_job_definition" "test" {
+  name = local.name
+  type = "container"
 
-      container_properties = jsonencode({
-        command = ["df", "-h"],
-        image   = "${var.container_image_url}",
-        fargatePlatformConfiguration = {
-          platformVersion = "LATEST"
-        },
-        resourceRequirements = [
-          { type = "VCPU", value = tostring(var.container_vcpu) },
-          { type = "MEMORY", value = tostring(var.container_memory) }
-        ],
-        executionRoleArn = aws_iam_role.ecs_task_execution_role.arn
-      })
+  platform_capabilities      = [upper("${var.compute_environments}")]
 
-      volumes = {
-        name = "efs"
+  container_properties = jsonencode({
+    command = ["df", "-h"],
+    image   = "${var.container_image_url}"
+    jobRoleArn = aws_iam_role.ecs_task_execution_role.arn
+    fargatePlatformConfiguration = {
+      platformVersion = "1.4.0"
+    }
 
-        efs_volume_configuration = {
+    resourceRequirements = [
+      {
+        type  = "VCPU"
+        value = tostring(var.container_vcpu) 
+      },
+      {
+        type  = "MEMORY"
+        value = tostring(var.container_memory)
+      }
+    ]
+
+    volumes = [
+      {
+      efs_volume_configuration = {
           file_system_id          = var.efs_id
           root_directory          = "/"
           transit_encryption      = "ENABLED"
@@ -113,27 +118,16 @@ module "batch" {
           }
         }
       }
+    ]
 
-      attempt_duration_seconds = 120
-      retry_strategy = {
-        attempts = 3
-        evaluate_on_exit = {
-          retry_error = {
-            action       = "RETRY"
-            on_exit_code = 1
-          }
-          exit_success = {
-            action       = "EXIT"
-            on_exit_code = 0
-          }
-        }
+    mountPoints = [
+      {
+        sourceVolume  = "efs"
+        containerPath = "/mnt/"
+        readOnly      = false
       }
-
-      tags = {
-        JobDefinition = "Example"
-      }
-    }
-  }
+    ]
+  })
 }
 
 ################################################################################

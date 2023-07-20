@@ -10,7 +10,7 @@ data "aws_caller_identity" "current" {}
 module "step_function" {
   source = "terraform-aws-modules/step-functions/aws"
 
-  name       = "sfn-batch-example"
+  name       = "sfn-batch"
   definition = <<EOF
   {
     "Comment": "Example State Machine",
@@ -44,7 +44,7 @@ module "step_function" {
 
 
 resource "aws_iam_role" "role_for_sfn" {
-  name = "sfn-role"
+  name = "sfn-batch"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -62,7 +62,7 @@ resource "aws_iam_role" "role_for_sfn" {
 }
 
 resource "aws_iam_policy" "sfn_batch_policy" {
-  name = "sfn_batch_execution"
+  name = "sfn-batch"
   # Terraform's "jsonencode" function converts a
   # Terraform expression result to valid JSON syntax.
   policy = jsonencode({
@@ -74,13 +74,6 @@ resource "aws_iam_policy" "sfn_batch_policy" {
         "batch:TerminateJob"]
         Effect   = "Allow"
         Resource = "*"
-      },
-      {
-        Action = ["events:PutTargets",
-          "events:PutRule",
-        "events:DescribeRule"]
-        Effect   = "Allow"
-        Resource = "arn:aws:events:${var.region}:${local.account_id}:rule/StepFunctionsGetEventsForBatchJobsRule"
       }
     ]
   })
