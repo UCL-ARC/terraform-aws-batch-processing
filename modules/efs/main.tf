@@ -21,22 +21,6 @@ module "efs" {
     transition_to_ia = var.efs_transition_to_ia_period
   }
 
-  # File system policy
-  attach_policy                      = true
-  bypass_policy_lockout_safety_check = false
-  policy_statements = [
-    {
-      sid     = "Example"
-      actions = ["elasticfilesystem:ClientMount"]
-      principals = [
-        {
-          type        = "AWS"
-          identifiers = [data.aws_caller_identity.current.arn]
-        }
-      ]
-    }
-  ]
-
   # Access point(s)
   access_points = {
     posix_example = {

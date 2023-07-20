@@ -82,9 +82,9 @@ output "scheduling_policies" {
 # Job Definitions
 ################################################################################
 
-output "job_definitions" {
-  description = "Map of job defintions created and their associated attributes"
-  value       = module.batch.job_definitions
+output "batch_job_arn" {
+  description = "Job defintions created"
+  value       = aws_batch_job_definition.batch_job.arn
 }
 
 ################################################################################

@@ -47,7 +47,7 @@ variable "container_image_url" {
 variable "container_vcpu" {
   type        = number
   description = "Containter VCPUs resources"
-  default     = 1
+  default     = 1.0
 }
 variable "container_memory" {
   type        = number
