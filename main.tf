@@ -52,9 +52,8 @@ module "batch" {
 
 module "step_function" {
   source                = "./modules/step_function"
-  batch_task_arn        = module.batch.job_definitions.arn
+  batch_task_arn        = module.batch.aws_batch_job_definition.arn
   region                = var.region
-  batch_job_definitions = module.batch.job_definitions
   batch_job_queues      = module.batch.job_queues
 }
 
