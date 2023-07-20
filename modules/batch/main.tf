@@ -155,8 +155,8 @@ resource "aws_security_group" "batch_security_group" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = [var.base_cidr_block]
-    description = "Outbound to EFS"
+    cidr_blocks = ["0.0.0.0/0", var.base_cidr_block]
+    description = "Outbound"
   }
 }
 
