@@ -1,6 +1,6 @@
 locals {
-  account_id     = data.aws_caller_identity.current.account_id
-  job_queue      = var.batch_job_queues["high_priority"]
+  account_id = data.aws_caller_identity.current.account_id
+  job_queue  = var.batch_job_queues["high_priority"]
 }
 
 data "aws_caller_identity" "current" {}
