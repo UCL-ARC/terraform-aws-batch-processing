@@ -90,7 +90,6 @@ resource "aws_batch_job_definition" "batch_job" {
   container_properties = jsonencode({
     command    = ["df", "-h"],
     image      = "${var.container_image_url}"
-    execution_role_arn = aws_iam_role.ecs_task_execution_role.arn
     fargatePlatformConfiguration = {
       platformVersion = "1.4.0"
     }
@@ -105,7 +104,7 @@ resource "aws_batch_job_definition" "batch_job" {
         value = tostring(var.container_memory)
       }
     ]
-
+    executionRoleArn = aws_iam_role.ecs_task_execution_role.arn
     volumes = [
       {
         efs_volume_configuration = {
