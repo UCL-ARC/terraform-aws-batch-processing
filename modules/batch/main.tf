@@ -86,7 +86,6 @@ resource "aws_batch_job_definition" "batch_job" {
   type = "container"
 
   platform_capabilities = [upper("${var.compute_environments}")]
-  execution_role_arn = aws_iam_role.ecs_task_execution_role.arn
 
   container_properties = jsonencode({
     command    = ["df", "-h"],
@@ -105,7 +104,7 @@ resource "aws_batch_job_definition" "batch_job" {
         value = tostring(var.container_memory)
       }
     ]
-
+    executionRoleArn = aws_iam_role.ecs_task_execution_role.arn
     volumes = [
       {
         efs_volume_configuration = {
