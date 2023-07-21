@@ -43,7 +43,7 @@ module "step_function" {
 
 
 resource "aws_iam_role" "role_for_sfn" {
-  name = "sfn-batch-roke"
+  name = "sfn-batch-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
