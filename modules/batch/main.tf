@@ -86,48 +86,44 @@ resource "aws_batch_job_definition" "batch_job" {
   type = "container"
 
   platform_capabilities = [upper("${var.compute_environments}")]
+  schedulingPriority = 99
 
-  container_properties = jsonencode({
-    command    = ["df", "-h"],
-    image      = "${var.container_image_url}"
-    fargatePlatformConfiguration = {
-      platformVersion = "1.4.0"
-    }
-
-    resourceRequirements = [
-      {
-        type  = "VCPU"
-        value = tostring(var.container_vcpu)
-      },
-      {
-        type  = "MEMORY"
-        value = tostring(var.container_memory)
-      }
-    ]
-    executionRoleArn = aws_iam_role.ecs_task_execution_role.arn
-    depends_on = [var.efs_id]
-    volumes = [
-      {
-        efs_volume_configuration = {
-          file_system_id          = var.efs_id
-          root_directory          = "/"
-          transit_encryption      = "ENABLED"
-          transit_encryption_port = 2999
-          authorization_config = {
-            iam = "ENABLED"
+  container_properties = <<CONTAINER_PROPERTIES
+  {
+      "image": "${var.container_image_url}",
+      "command": ["df", "-h"],
+      "executionRoleArn": "${aws_iam_role.ecs_task_execution_role.arn}",
+      "volumes": [
+        {
+          "name": "efs",
+          "efsVolumeConfiguration": {
+            "fileSystemId": "${var.efs_id}"
           }
         }
+      ],
+      "mountPoints": [
+        {
+          "containerPath": "/mnt/",
+          "readOnly": false,
+          "sourceVolume": "efs"
+        }
+      ],
+      "resourceRequirements": [
+        {
+          "value": "${var.container_vcpu}",
+          "type": "VCPU"
+        },
+        {
+          "value": "${var.container_memory}",
+          "type": "MEMORY"
+        }
+      ],
+       "fargatePlatformConfiguration": {
+        "platformVersion": "1.4.0"
       }
     ]
-
-    mountPoints = [
-      {
-        sourceVolume  = "efs"
-        containerPath = "/mnt/"
-        readOnly      = false
-      }
-    ]
-  })
+}
+CONTAINER_PROPERTIES  
 }
 
 ################################################################################
