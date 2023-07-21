@@ -45,40 +45,40 @@ module "batch" {
   }
 
   # Job queues and scheduling policies
-  job_queues = {
-    low_priority = {
-      name     = "LowPriority"
-      state    = "ENABLED"
-      priority = 1
+  # job_queues = {
+  #   low_priority = {
+  #     name     = "LowPriority"
+  #     state    = "ENABLED"
+  #     priority = 1
 
-      tags = {
-        JobQueue = "Low priority job queue"
-      }
-    }
+  #     tags = {
+  #       JobQueue = "Low priority job queue"
+  #     }
+  #   }
 
-    high_priority = {
-      name     = "HighPriority"
-      state    = "ENABLED"
-      priority = 99
+  #   high_priority = {
+  #     name     = "HighPriority"
+  #     state    = "ENABLED"
+  #     priority = 99
 
-      fair_share_policy = {
-        compute_reservation = 1
-        share_decay_seconds = 3600
+  #     fair_share_policy = {
+  #       compute_reservation = 1
+  #       share_decay_seconds = 3600
 
-        share_distribution = [{
-          share_identifier = "A1*"
-          weight_factor    = 0.1
-          }, {
-          share_identifier = "A2"
-          weight_factor    = 0.2
-        }]
-      }
+  #       share_distribution = [{
+  #         share_identifier = "A1*"
+  #         weight_factor    = 0.1
+  #         }, {
+  #         share_identifier = "A2"
+  #         weight_factor    = 0.2
+  #       }]
+  #     }
 
-      tags = {
-        JobQueue = "High priority job queue"
-      }
-    }
-  }
+  #     tags = {
+  #       JobQueue = "High priority job queue"
+  #     }
+  #   }
+  # }
 }
 
 resource "aws_batch_job_definition" "batch_job" {
@@ -87,47 +87,41 @@ resource "aws_batch_job_definition" "batch_job" {
 
   platform_capabilities = [upper("${var.compute_environments}")]
 
-  container_properties = jsonencode({
-    command    = ["df", "-h"],
-    image      = "${var.container_image_url}"
-    fargatePlatformConfiguration = {
-      platformVersion = "1.4.0"
-    }
-
-    resourceRequirements = [
+  container_properties = <<CONTAINER_PROPERTIES
+  {
+    "image": "${var.container_image_url}",
+    "command": ["df", "-h"],
+    "executionRoleArn": "${aws_iam_role.ecs_task_execution_role.arn}",
+    "volumes": [
       {
-        type  = "VCPU"
-        value = tostring(var.container_vcpu)
-      },
-      {
-        type  = "MEMORY"
-        value = tostring(var.container_memory)
-      }
-    ]
-    executionRoleArn = aws_iam_role.ecs_task_execution_role.arn
-    depends_on = [var.efs_id]
-    volumes = [
-      {
-        efs_volume_configuration = {
-          file_system_id          = var.efs_id
-          root_directory          = "/"
-          transit_encryption      = "ENABLED"
-          transit_encryption_port = 2999
-          authorization_config = {
-            iam = "ENABLED"
-          }
+        "name": "efs",
+        "efsVolumeConfiguration": {
+          "fileSystemId": "${var.efs_id}"
         }
       }
-    ]
-
-    mountPoints = [
+    ],
+    "mountPoints": [
       {
-        sourceVolume  = "efs"
-        containerPath = "/mnt/"
-        readOnly      = false
+        "containerPath": "/mnt/",
+        "readOnly": false,
+        "sourceVolume": "efs"
       }
-    ]
-  })
+    ],
+    "resourceRequirements": [
+      {
+        "value": "${var.container_vcpu}",
+        "type": "VCPU"
+      },
+      {
+        "value": "${var.container_memory}",
+        "type": "MEMORY"
+      }
+    ],
+      "fargatePlatformConfiguration": {
+      "platformVersion": "1.4.0"
+    }
+  }
+  CONTAINER_PROPERTIES  
 }
 
 ################################################################################

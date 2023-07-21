@@ -103,3 +103,27 @@ module "kms" {
   # For example use only
   deletion_window_in_days = 7
 }
+
+data "aws_iam_policy_document" "efs-policy" {
+  statement {
+    sid    = "1"
+    effect = "Allow"
+
+    principals {
+      type        = "AWS"
+      identifiers = ["*"]
+    }
+
+    actions = [
+      "elasticfilesystem:ClientMount",
+      "elasticfilesystem:ClientWrite",
+    ]
+
+    resources = [module.efs.arn]
+  }
+}
+
+resource "aws_efs_file_system_policy" "policy" {
+  file_system_id = module.efs.id
+  policy         = data.aws_iam_policy_document.efs-policy.json
+}

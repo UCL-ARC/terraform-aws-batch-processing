@@ -51,10 +51,10 @@ module "batch" {
 }
 
 module "step_function" {
-  source           = "./modules/step_function"
-  batch_task_arn   = module.batch.batch_job_arn
-  region           = var.region
-  batch_job_queues = module.batch.job_queues
+  source         = "./modules/step_function"
+  batch_task_arn = module.batch.batch_job_arn
+  region         = var.region
+  # batch_job_queues = module.batch.job_queues
 }
 
 module "appstream" {
