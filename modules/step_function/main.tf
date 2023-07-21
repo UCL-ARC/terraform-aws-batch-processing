@@ -73,6 +73,13 @@ resource "aws_iam_policy" "sfn_batch_policy" {
         "batch:TerminateJob"]
         Effect   = "Allow"
         Resource = "*"
+      },
+      {
+        Action = ["events:PutTargets",
+          "events:PutRule",
+        "events:DescribeRule"]
+        Effect   = "Allow"
+        Resource = "arn:aws:events:${var.region}:${local.account_id}:rule/StepFunctionsGetEventsForBatchJobsRule"
       }
     ]
   })
