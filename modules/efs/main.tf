@@ -125,5 +125,5 @@ data "aws_iam_policy_document" "efs-policy" {
 
 resource "aws_efs_file_system_policy" "policy" {
   file_system_id = module.efs.id
-  policy         = data.aws_iam_policy_document.policy.json
+  policy         = data.aws_iam_policy_document.efs-policy.json
 }
