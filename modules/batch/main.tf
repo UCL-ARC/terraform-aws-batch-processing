@@ -110,11 +110,11 @@ resource "aws_batch_job_definition" "batch_job" {
       ],
       "resourceRequirements": [
         {
-          "value": ${var.container_vcpu},
+          "value": "${var.container_vcpu}",
           "type": "VCPU"
         },
         {
-          "value": ${var.container_memory},
+          "value": "${var.container_memory}",
           "type": "MEMORY"
         }
       ],
