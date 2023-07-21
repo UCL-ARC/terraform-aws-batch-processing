@@ -88,41 +88,39 @@ resource "aws_batch_job_definition" "batch_job" {
   platform_capabilities = [upper("${var.compute_environments}")]
 
   container_properties = <<CONTAINER_PROPERTIES
-  [ 
-    {
-      "image": "${var.container_image_url}",
-      "command": ["df", "-h"],
-      "executionRoleArn": "${aws_iam_role.ecs_task_execution_role.arn}",
-      "volumes": [
-        {
-          "name": "efs",
-          "efsVolumeConfiguration": {
-            "fileSystemId": "${var.efs_id}"
-          }
+  {
+    "image": "${var.container_image_url}",
+    "command": ["df", "-h"],
+    "executionRoleArn": "${aws_iam_role.ecs_task_execution_role.arn}",
+    "volumes": [
+      {
+        "name": "efs",
+        "efsVolumeConfiguration": {
+          "fileSystemId": "${var.efs_id}"
         }
-      ],
-      "mountPoints": [
-        {
-          "containerPath": "/mnt/",
-          "readOnly": false,
-          "sourceVolume": "efs"
-        }
-      ],
-      "resourceRequirements": [
-        {
-          "value": "${var.container_vcpu}",
-          "type": "VCPU"
-        },
-        {
-          "value": "${var.container_memory}",
-          "type": "MEMORY"
-        }
-      ],
-       "fargatePlatformConfiguration": {
-        "platformVersion": "1.4.0"
       }
+    ],
+    "mountPoints": [
+      {
+        "containerPath": "/mnt/",
+        "readOnly": false,
+        "sourceVolume": "efs"
+      }
+    ],
+    "resourceRequirements": [
+      {
+        "value": "${var.container_vcpu}",
+        "type": "VCPU"
+      },
+      {
+        "value": "${var.container_memory}",
+        "type": "MEMORY"
+      }
+    ],
+      "fargatePlatformConfiguration": {
+      "platformVersion": "1.4.0"
     }
-  ] 
+  }
   CONTAINER_PROPERTIES  
 }
 
