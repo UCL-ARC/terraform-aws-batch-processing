@@ -88,7 +88,8 @@ resource "aws_batch_job_definition" "batch_job" {
   platform_capabilities = [upper("${var.compute_environments}")]
 
   container_properties = <<CONTAINER_PROPERTIES
-  {
+  [ 
+    {
       "image": "${var.container_image_url}",
       "command": ["df", "-h"],
       "executionRoleArn": "${aws_iam_role.ecs_task_execution_role.arn}",
@@ -120,8 +121,9 @@ resource "aws_batch_job_definition" "batch_job" {
        "fargatePlatformConfiguration": {
         "platformVersion": "1.4.0"
       }
-}
-CONTAINER_PROPERTIES  
+    }
+  ] 
+  CONTAINER_PROPERTIES  
 }
 
 ################################################################################
