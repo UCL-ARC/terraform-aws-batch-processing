@@ -105,6 +105,7 @@ resource "aws_batch_job_definition" "batch_job" {
       }
     ]
     executionRoleArn = aws_iam_role.ecs_task_execution_role.arn
+    depends_on = [var.efs_id]
     volumes = [
       {
         efs_volume_configuration = {
