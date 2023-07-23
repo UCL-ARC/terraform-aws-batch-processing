@@ -12,23 +12,30 @@ module "step_function" {
   name       = "sfn-batch-test"
   definition = <<EOF
   {
-    "Comment": "Example State Machine",
-    "StartAt": "BATCH_JOB",
-    "States": {
-      "BATCH_JOB": {
-        "Type": "Task",
-        "End": true,
-        "Resource": "arn:aws:states:::batch:submitJob.sync",
-        "Parameters": {
-          "JobDefinition": "${var.batch_task_arn}",
-          "JobQueue": "${local.job_queue.arn}",
-          "JobName": "Test Batch",
-          "JobName": "example",
-          "ShareIdentifier": "test"
-        }
+  "Comment": "Example State Machine",
+  "StartAt": "StartTaskExecution",
+  "States": {
+    "StartTaskExecution": {
+      "Type": "Task",
+      "Next": "BATCH_JOB",
+      "Parameters": {
+        "TaskArn": "${var.datasync_task_s3_efs}"
+      },
+      "Resource": "arn:aws:states:::datasync:startTaskExecution"
+    },
+    "BATCH_JOB": {
+      "Type": "Task",
+      "End": true,
+      "Resource": "arn:aws:states:::batch:submitJob.sync",
+      "Parameters": {
+        "JobDefinition": "${var.batch_task_arn}",
+        "JobQueue": "${local.job_queue.arn}",
+        "JobName": "example",
+        "ShareIdentifier": "test"
       }
     }
   }
+}
   EOF
 
   service_integrations = {
@@ -51,13 +58,25 @@ resource "aws_iam_role" "role_for_sfn" {
       {
         Action = "sts:AssumeRole"
         Effect = "Allow"
-        Sid    = ""
         Principal = {
           Service = "states.amazonaws.com"
         }
       },
     ]
   })
+}
+
+data "aws_iam_policy_document" "assume_role" {
+  statement {
+    effect = "Allow"
+
+    principals {
+      type        = "Service"
+      identifiers = ["datasync.amazonaws.com"]
+    }
+
+    actions = ["sts:AssumeRole"]
+  }
 }
 
 resource "aws_iam_policy" "sfn_batch_policy" {
@@ -70,7 +89,9 @@ resource "aws_iam_policy" "sfn_batch_policy" {
       {
         Action = ["batch:SubmitJob",
           "batch:DescribeJobs",
-        "batch:TerminateJob"]
+          "batch:TerminateJob",
+          "datasync:*",
+        "ec2:*"]
         Effect   = "Allow"
         Resource = "*"
       },

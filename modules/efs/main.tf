@@ -62,6 +62,30 @@ module "efs" {
   }
 }
 
+resource "aws_efs_file_system_policy" "file_system_policy" {
+  file_system_id = module.efs.id
+
+  policy = <<EOF
+  {
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+          "Sid": "Satement",
+          "Effect": "Allow",
+          "Principal": {
+              "AWS": "*"
+          },
+          "Resource": "${module.efs.arn}",
+          "Action": [
+              "elasticfilesystem:ClientMount",
+              "elasticfilesystem:ClientWrite"
+          ]
+      }
+    ]
+  }
+  EOF
+}
+
 resource "aws_security_group" "efs_security_group" {
   name        = "efs_security_group"
   description = "Allow NFS traffic."

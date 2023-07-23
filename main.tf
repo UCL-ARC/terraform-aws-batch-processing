@@ -33,7 +33,7 @@ module "efs" {
   base_cidr_block             = var.vpc_cidr_block
   efs_transition_to_ia_period = var.efs_transition_to_ia_period
   efs_throughput_in_mibps     = var.efs_throughput_in_mibps
-  batch_security_group        = module.batch.batch_security_group
+  batch_security_group        = module.batch.batch_security_group.id
 }
 
 module "batch" {
@@ -51,10 +51,11 @@ module "batch" {
 }
 
 module "step_function" {
-  source           = "./modules/step_function"
-  batch_task_arn   = module.batch.batch_job_arn
-  region           = var.region
-  batch_job_queues = module.batch.job_queues
+  source               = "./modules/step_function"
+  batch_task_arn       = module.batch.batch_job_arn
+  region               = var.region
+  batch_job_queues     = module.batch.job_queues
+  datasync_task_s3_efs = module.datasync.datasync_task_s3_efs
 }
 
 module "appstream" {
@@ -80,3 +81,15 @@ module "s3_reports" {
   region      = var.region
   bucket_name = "${var.solution_name}-reports"
 }
+
+module "datasync" {
+  source               = "./modules/datasync"
+  private_subnets      = module.vpc.private_subnets
+  upload_s3_arn        = module.s3_upload.s3_arn
+  reports_s3_arn       = module.s3_reports.s3_reports_arn
+  efs_arn              = module.efs.efs_arn
+  batch_security_group = module.batch.batch_security_group.arn
+  efs_security_group   = module.efs.efs_security_group_arn
+  efs_id               = module.efs.efs_id
+}
+  

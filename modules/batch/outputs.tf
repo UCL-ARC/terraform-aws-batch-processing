@@ -92,6 +92,6 @@ output "batch_job_arn" {
 ################################################################################
 
 output "batch_security_group" {
-  description = "Security group id"
-  value       = aws_security_group.batch_security_group.id
+  description = "Security group"
+  value       = aws_security_group.batch_security_group
 }
