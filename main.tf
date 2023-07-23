@@ -90,6 +90,6 @@ module "datasync" {
   efs_arn              = module.efs.efs_arn
   batch_security_group = module.batch.batch_security_group.arn
   efs_security_group   = module.efs.efs_security_group_arn
-  efs_id               = module.efs_id
+  efs_id               = module.efs.efs_id
 }
   
