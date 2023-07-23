@@ -21,7 +21,7 @@ module "step_function" {
       "Parameters": {
         "TaskArn": "${var.datasync_task_s3_efs}"
       },
-      "Resource": "arn:aws:states:::aws-sdk:datasync:startTaskExecution"
+      "Resource": "arn:aws:states:::aws-sdk:datasync:startTaskExecution.sync"
     },
     "BATCH_JOB": {
       "Type": "Task",
@@ -29,7 +29,8 @@ module "step_function" {
       "Parameters": {
         "JobDefinition": "${var.batch_task_arn}",
         "JobQueue": "${local.job_queue.arn}",
-        "JobName": "simple"
+        "JobName": "simple",
+        "ShareIdentifier": "test"
       },
       "Next": "Data_Sync_efs_s3"
     },
@@ -39,7 +40,7 @@ module "step_function" {
       "Parameters": {
         "TaskArn": "${var.datasync_task_efs_s3}"
       },
-      "Resource": "arn:aws:states:::aws-sdk:datasync:startTaskExecution"
+      "Resource": "arn:aws:states:::aws-sdk:datasync:startTaskExecution.sync"
     }
   }
 }
