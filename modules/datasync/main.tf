@@ -24,7 +24,7 @@ resource "aws_datasync_location_efs" "destination" {
   efs_file_system_arn = var.efs_arn
   access_point_arn    = var.efs_access_points_arn[1]
 
-  file_system_access_role_arn = aws_iam_role.efs_access_points_arns.arn
+  file_system_access_role_arn = aws_iam_role.role_for_datasync_efs.arn
   in_transit_encryption       = "TLS1_2"
   subdirectory                = "/"
 
