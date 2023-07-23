@@ -20,12 +20,17 @@ variable "efs_arn" {
   description = "The ID of the EFS file system to copy data to"
 }
 
-variable "security_group_arns" {
-  type        = list(string)
-  description = "Security group arns"
+variable "batch_security_group" {
+  type        = string
+  description = "Security group batch arn"
 }
 
-variable "efs_access_points_arn" {
+variable "efs_security_group" {
+  type        = string
+  description = "Security group efs arn"
+}
+
+variable "efs_access_points_arns" {
   type        = list(string)
-  description = "Security group arns"
+  description = "Access points arns"
 }
