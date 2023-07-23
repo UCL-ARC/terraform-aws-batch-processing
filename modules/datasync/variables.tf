@@ -30,7 +30,7 @@ variable "efs_security_group" {
   description = "Security group efs arn"
 }
 
-variable "efs_access_points_arns" {
+variable "efs_access_points" {
   type        = list(string)
-  description = "Access points arns"
+  description = "Access points"
 }
