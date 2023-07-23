@@ -44,7 +44,7 @@ data "aws_subnet" "selected" {
   id = var.private_subnets[0]
 }
 
-data "aws_iam_policy_document" "assume_role" {
+data "aws_iam_policy_document" "assume_role_s3" {
   statement {
     effect = "Allow"
 
@@ -59,7 +59,7 @@ data "aws_iam_policy_document" "assume_role" {
 
 resource "aws_iam_role" "role_for_datasync_s3" {
   name               = "datasync-s3-role"
-  assume_role_policy = data.aws_iam_policy_document.assume_role.json
+  assume_role_policy = data.aws_iam_policy_document.assume_role_s3.json
 }
 
 
@@ -74,10 +74,23 @@ resource "aws_iam_role_policy_attachment" "datasync-s3-attach" {
   policy_arn = aws_iam_policy.datasync_policy_s3.arn
 }
 
+data "aws_iam_policy_document" "assume_role_efs" {
+  statement {
+    effect = "Allow"
+
+    principals {
+      type        = "Service"
+      identifiers = ["datasync.amazonaws.com"]
+    }
+
+    actions = ["sts:AssumeRole"]
+  }
+}
+
 
 resource "aws_iam_role" "role_for_datasync_efs" {
   name               = "datasync-efs-role"
-  assume_role_policy = data.aws_iam_policy_document.assume_role.json
+  assume_role_policy = data.aws_iam_policy_document.assume_role_efs.json
 }
 
 
