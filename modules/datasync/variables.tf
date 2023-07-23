@@ -4,9 +4,15 @@ variable "private_subnets" {
 }
 
 # ARN of the s3 bucket.
-variable "s3_arn" {
+variable "upload_s3_arn" {
   type        = string
-  description = "ARN of the s3 bucket"
+  description = "ARN of the upload s3 bucket"
+}
+
+# ARN of the s3 bucket.
+variable "reports_s3_arn" {
+  type        = string
+  description = "ARN of the reports s3 bucket"
 }
 
 variable "efs_arn" {
@@ -15,6 +21,11 @@ variable "efs_arn" {
 }
 
 variable "security_group_arns" {
-  type        = string
+  type        = list(string)
+  description = "Security group arns"
+}
+
+variable "efs_access_points_arn" {
+  type        = list(string)
   description = "Security group arns"
 }

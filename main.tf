@@ -33,7 +33,7 @@ module "efs" {
   base_cidr_block             = var.vpc_cidr_block
   efs_transition_to_ia_period = var.efs_transition_to_ia_period
   efs_throughput_in_mibps     = var.efs_throughput_in_mibps
-  batch_security_group        = module.batch.batch_security_group
+  batch_security_group        = module.batch.batch_security_group.id
 }
 
 module "batch" {
@@ -80,3 +80,15 @@ module "s3_reports" {
   region      = var.region
   bucket_name = "${var.solution_name}-reports"
 }
+
+module "datasync" {
+  source      = "./modules/datasync"
+  private_subnets = module.vpc.private_subnets
+  upload_s3_arn = module.s3_upload.s3_arn
+  reports_s3_arn = module.s3_reports.s3_reports_arn
+  efs_arn = module.efs.efs_arn
+  batch_security_group = module.batch.batch_security_group.arn
+  efs_security_group = module.efs.efs_security_group.arn
+  efs_access_points_arns = module.efs.access_points.arns
+}
+  
