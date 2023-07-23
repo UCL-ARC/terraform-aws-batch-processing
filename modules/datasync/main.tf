@@ -34,8 +34,7 @@ resource "aws_datasync_location_efs" "destination" {
 
   ec2_config {
     security_group_arns = [
-      var.efs_security_group,
-      var.batch_security_group
+      var.efs_security_group
     ]
     subnet_arn = data.aws_subnet.selected.arn
   }
