@@ -20,7 +20,6 @@ resource "aws_datasync_location_s3" "s3_upload" {
 
 resource "aws_efs_access_point" "efs" {
   file_system_id = var.efs_id
-  root_directory = "/"
 }
 
 resource "aws_datasync_location_efs" "destination" {
