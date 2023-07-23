@@ -14,3 +14,8 @@ variable "batch_job_queues" {
     "job_queues" = "HighPriority"
   }
 }
+variable "datasync_task_s3_efs"{
+  type = string
+  description = "Datasync s3 to efs task arn"
+
+}

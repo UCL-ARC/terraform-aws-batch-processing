@@ -55,6 +55,7 @@ module "step_function" {
   batch_task_arn   = module.batch.batch_job_arn
   region           = var.region
   batch_job_queues = module.batch.job_queues
+  datasync_task_s3_efs = module.datasync.datasync_task_s3_efs
 }
 
 module "appstream" {
@@ -88,7 +89,7 @@ module "datasync" {
   reports_s3_arn = module.s3_reports.s3_reports_arn
   efs_arn = module.efs.efs_arn
   batch_security_group = module.batch.batch_security_group.arn
-  efs_security_group = module.efs.efs_security_group.arn
+  efs_security_group = module.efs.efs_security_group_arn
   efs_access_points_arns = module.efs.access_points.arns
 }
   

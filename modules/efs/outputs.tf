@@ -14,3 +14,7 @@ output "efs_arn" {
   value       = module.efs.arn
   description = "EFS ID"
 }
+output "efs_security_group_arn" {
+  value       = module.efs.security_group_arn
+  description = "EFS ID"
+}

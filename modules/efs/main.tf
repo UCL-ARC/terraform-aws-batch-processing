@@ -65,26 +65,25 @@ module "efs" {
 resource "aws_efs_file_system_policy" "file_system_policy" {
   file_system_id = module.efs.id
 
-  policy = <<POLICY
-{
+  policy      = <<EOF
+  {
     "Version": "2012-10-17",
-    "Id": "Policy",
     "Statement": [
-        {
-            "Sid": "Satement",
-            "Effect": "Allow",
-            "Principal": {
-                "AWS": "*"
-            },
-            "Resource": "${module.efs.arn}",
-            "Action": [
-                "elasticfilesystem:ClientMount",
-                "elasticfilesystem:ClientWrite"
-            ]
-        }
+      {
+          "Sid": "Satement",
+          "Effect": "Allow",
+          "Principal": {
+              "AWS": "*"
+          },
+          "Resource": "${module.efs.arn}",
+          "Action": [
+              "elasticfilesystem:ClientMount",
+              "elasticfilesystem:ClientWrite"
+          ]
+      }
     ]
-}
-POLICY
+  }
+  EOF
 }
 
 resource "aws_security_group" "efs_security_group" {

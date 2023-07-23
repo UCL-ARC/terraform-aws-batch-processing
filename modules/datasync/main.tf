@@ -10,7 +10,7 @@ resource "aws_datasync_task" "datasync_task_s3_efs" {
 
 
 resource "aws_datasync_location_s3" "s3_upload" {
-  s3_bucket_arn = var.s3_arn
+  s3_bucket_arn = var.upload_s3_arn
   subdirectory  = "/chronostics/"
 
   s3_config {
@@ -63,7 +63,7 @@ resource "aws_iam_role" "role_for_datasync_s3" {
 resource "aws_iam_policy" "datasync_policy_s3" {
   name        = "ARC-datasync-s3"
   description = "Allows datasync to operated with s3"
-  policy      = templatefile("${path.module}/templates/datasync_policy.json.tmpl", { s3_arn = var.s3_arn })
+  policy      = templatefile("${path.module}/templates/datasync_policy.json.tmpl", { s3_arn = var.upload_s3_arn })
 }
 
 resource "aws_iam_role_policy_attachment" "datasync-s3-attach" {
