@@ -62,7 +62,7 @@ module "efs" {
   }
 }
 
-resource "aws_efs_file_system_policy" "policy" {
+resource "aws_efs_file_system_policy" "file_system_policy" {
   file_system_id = module.efs.id
 
   policy = <<POLICY
