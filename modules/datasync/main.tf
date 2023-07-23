@@ -114,12 +114,12 @@ resource "aws_iam_policy" "datasync_policy_s3_reports" {
 
 
 
-resource "aws_iam_role_policy_attachment" "datasync-s3-attach" {
+resource "aws_iam_role_policy_attachment" "datasync-s3-upload-attach" {
   role       = aws_iam_role.role_for_datasync_s3_uploads.name
   policy_arn = aws_iam_policy.datasync_policy_s3_uploads.arn
 }
 
-resource "aws_iam_role_policy_attachment" "datasync-s3-attach" {
+resource "aws_iam_role_policy_attachment" "datasync-s3-reports-attach" {
   role       = aws_iam_role.role_for_datasync_s3_reports.name
   policy_arn = aws_iam_policy.datasync_policy_s3_reports.arn
 }
