@@ -18,11 +18,16 @@ resource "aws_datasync_location_s3" "s3_upload" {
   }
 }
 
+resource "aws_efs_access_point" "efs" {
+  file_system_id = var.efs_id
+  root_directory = "/"
+}
+
 resource "aws_datasync_location_efs" "destination" {
   # The below example uses aws_efs_mount_target as a reference to ensure a mount target already exists when resource creation occurs.
   # You can accomplish the same behavior with depends_on or an aws_efs_mount_target data source reference.
   efs_file_system_arn = var.efs_arn
-  access_point_arn    = var.efs_access_points[1].arn
+  access_point_arn    = aws_efs_access_point.efs.arn
 
   file_system_access_role_arn = aws_iam_role.role_for_datasync_efs.arn
   in_transit_encryption       = "TLS1_2"
