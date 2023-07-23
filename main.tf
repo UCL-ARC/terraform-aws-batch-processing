@@ -83,13 +83,13 @@ module "s3_reports" {
 }
 
 module "datasync" {
-  source                 = "./modules/datasync"
-  private_subnets        = module.vpc.private_subnets
-  upload_s3_arn          = module.s3_upload.s3_arn
-  reports_s3_arn         = module.s3_reports.s3_reports_arn
-  efs_arn                = module.efs.efs_arn
-  batch_security_group   = module.batch.batch_security_group.arn
-  efs_security_group     = module.efs.efs_security_group_arn
-  efs_access_points_arns = module.efs.access_points
+  source               = "./modules/datasync"
+  private_subnets      = module.vpc.private_subnets
+  upload_s3_arn        = module.s3_upload.s3_arn
+  reports_s3_arn       = module.s3_reports.s3_reports_arn
+  efs_arn              = module.efs.efs_arn
+  batch_security_group = module.batch.batch_security_group.arn
+  efs_security_group   = module.efs.efs_security_group_arn
+  efs_access_points    = module.efs.access_points
 }
   
