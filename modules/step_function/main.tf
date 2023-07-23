@@ -25,13 +25,14 @@ module "step_function" {
     },
     "BATCH_JOB": {
       "Type": "Task",
-      "Next": "Data_Sync_efs_s3",
       "Resource": "arn:aws:states:::batch:submitJob.sync",
       "Parameters": {
         "JobDefinition": "${var.batch_task_arn}",
         "JobQueue": "${local.job_queue.arn}",
-        "JobName": "simple",
+        "JobName": "simple"
       },
+      "Next": "Data_Sync_efs_s3"
+    },
     "Data_Sync_efs_s3": {
       "Type": "Task",
       "End": true,
@@ -39,12 +40,10 @@ module "step_function" {
         "TaskArn": "${var.datasync_task_efs_s3}"
       },
       "Resource": "arn:aws:states:::aws-sdk:datasync:startTaskExecution"
-    },
     }
   }
 }
   EOF
-
   service_integrations = {
     batch_Sync = {
       events = true
