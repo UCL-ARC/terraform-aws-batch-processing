@@ -9,7 +9,7 @@ data "aws_caller_identity" "current" {}
 module "step_function" {
   source = "terraform-aws-modules/step-functions/aws"
 
-  name       = "sfn-batch-test"
+  name       = "sfn-datasync-batch"
   definition = <<EOF
   {
   "Comment": "Example State Machine",
@@ -30,7 +30,7 @@ module "step_function" {
       "Parameters": {
         "JobDefinition": "${var.batch_task_arn}",
         "JobQueue": "${local.job_queue.arn}",
-        "JobName": "example",
+        "JobName": "simple",
         "ShareIdentifier": "test"
       }
     }
