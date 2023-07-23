@@ -56,6 +56,7 @@ module "step_function" {
   region               = var.region
   batch_job_queues     = module.batch.job_queues
   datasync_task_s3_efs = module.datasync.datasync_task_s3_efs
+  datasync_task_efs_s3 = module.datasync.datasync_task_efs_s3
 }
 
 module "appstream" {

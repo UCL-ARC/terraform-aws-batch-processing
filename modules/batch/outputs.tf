@@ -84,7 +84,7 @@ output "scheduling_policies" {
 
 output "batch_job_arn" {
   description = "Job defintions created"
-  value       = aws_batch_job_definition.batch_job.arn
+  value       = aws_batch_job_definition.simple_batch_job.arn
 }
 
 ################################################################################

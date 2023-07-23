@@ -13,9 +13,9 @@ module "step_function" {
   definition = <<EOF
   {
   "Comment": "Example State Machine",
-  "StartAt": "StartTaskExecution",
+  "StartAt": "Data_Sync_s3_efs",
   "States": {
-    "StartTaskExecution": {
+    "Data_Sync_s3_efs": {
       "Type": "Task",
       "Next": "BATCH_JOB",
       "Parameters": {
@@ -25,14 +25,21 @@ module "step_function" {
     },
     "BATCH_JOB": {
       "Type": "Task",
-      "End": true,
+      "Next": "Data_Sync_efs_s3",
       "Resource": "arn:aws:states:::batch:submitJob.sync",
       "Parameters": {
         "JobDefinition": "${var.batch_task_arn}",
         "JobQueue": "${local.job_queue.arn}",
         "JobName": "simple",
-        "ShareIdentifier": "test"
-      }
+      },
+    "Data_Sync_efs_s3": {
+      "Type": "Task",
+      "End": true,
+      "Parameters": {
+        "TaskArn": "${var.datasync_task_efs_s3}"
+      },
+      "Resource": "arn:aws:states:::aws-sdk:datasync:startTaskExecution"
+    },
     }
   }
 }
