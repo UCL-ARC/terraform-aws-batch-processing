@@ -22,18 +22,18 @@ resource "aws_datasync_location_efs" "destination" {
   # The below example uses aws_efs_mount_target as a reference to ensure a mount target already exists when resource creation occurs.
   # You can accomplish the same behavior with depends_on or an aws_efs_mount_target data source reference.
   efs_file_system_arn = var.efs_arn
-  access_point_arn = var.efs_access_points_arn[1]
+  access_point_arn    = var.efs_access_points_arn[1]
 
-  file_system_access_role_arn = aws_iam_role.role_for_datasync_efs.arn
-  in_transit_encryption = "TLS1_2"
-  subdirectory = "/"
+  file_system_access_role_arn = aws_iam_role.efs_access_points_arns.arn
+  in_transit_encryption       = "TLS1_2"
+  subdirectory                = "/"
 
   ec2_config {
     security_group_arns = [
       var.efs_security_group,
       var.batch_security_group
     ]
-    subnet_arn          = data.aws_subnet.selected.arn
+    subnet_arn = data.aws_subnet.selected.arn
   }
 }
 
@@ -81,31 +81,26 @@ resource "aws_iam_role" "role_for_datasync_efs" {
 resource "aws_iam_policy" "datasync_policy_efs" {
   name        = "ARC-datasync-efs"
   description = "Allows datasync to operated with efs"
-  policy      = <<EOF
-  {
-    "Version": "2012-10-17",
-    "Statement": [
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
       {
-          "Effect": "Allow",
-          "Action": [
-              "datasync:*",
-              "ec2:*",
-              "elasticfilesystem:*",
-              "iam:GetRole",
-              "iam:ListRoles",
-              "logs:CreateLogGroup",
-              "logs:DescribeLogGroups",
-              "logs:DescribeResourcePolicies",
-              "s3:GetBucketLocation",
-              "s3:ListAllMyBuckets",
-              "s3:ListBucket",
-          ],
-          "Resource": "*"
+        Action = ["datasync:*",
+          "ec2:*",
+          "elasticfilesystem:*",
+          "iam:GetRole",
+          "iam:ListRoles",
+          "logs:CreateLogGroup",
+          "logs:DescribeLogGroups",
+          "logs:DescribeResourcePolicies",
+          "s3:GetBucketLocation",
+          "s3:ListAllMyBuckets",
+        "s3:ListBucket"]
+        Effect   = "Allow"
+        Resource = "*"
       }
     ]
-  }
-  EOF
-
+  })
 }
 
 resource "aws_iam_role_policy_attachment" "datasync-efs-attach" {
