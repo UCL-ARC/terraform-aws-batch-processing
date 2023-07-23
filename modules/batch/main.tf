@@ -81,7 +81,7 @@ module "batch" {
   }
 }
 
-resource "aws_batch_job_definition" "batch_job" {
+resource "aws_batch_job_definition" "simple_batch_job" {
   name = local.name
   type = "container"
 
