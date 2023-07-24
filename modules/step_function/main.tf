@@ -52,7 +52,7 @@ module "step_function" {
   }
 
   attach_policy = true
-  policy = aws_iam_policy.sfn_batch_policy.arn
+  policy        = aws_iam_policy.sfn_batch_policy.arn
 
   type = "STANDARD"
 
