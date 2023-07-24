@@ -86,7 +86,7 @@ resource "aws_batch_job_definition" "simple_batch_job" {
   type = "container"
 
   platform_capabilities = [upper("${var.compute_environments}")]
-
+  scheduling_priority = 99
   container_properties = <<CONTAINER_PROPERTIES
   {
     "image": "${var.container_image_url}",
