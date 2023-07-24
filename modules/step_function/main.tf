@@ -51,40 +51,13 @@ module "step_function" {
     }
   }
 
+  attach_policy = true
+  policy        = aws_iam_policy.sfn_batch_policy.arn
+
   type = "STANDARD"
 
 }
 
-
-resource "aws_iam_role" "role_for_sfn" {
-  name = "sfn-batch-role"
-
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = "sts:AssumeRole"
-        Effect = "Allow"
-        Principal = {
-          Service = "states.amazonaws.com"
-        }
-      },
-    ]
-  })
-}
-
-data "aws_iam_policy_document" "assume_role" {
-  statement {
-    effect = "Allow"
-
-    principals {
-      type        = "Service"
-      identifiers = ["datasync.amazonaws.com"]
-    }
-
-    actions = ["sts:AssumeRole"]
-  }
-}
 
 resource "aws_iam_policy" "sfn_batch_policy" {
   name = "sfn-batch-policy"
@@ -111,10 +84,4 @@ resource "aws_iam_policy" "sfn_batch_policy" {
       }
     ]
   })
-}
-
-# Attach the policy to the job role
-resource "aws_iam_role_policy_attachment" "job_policy_attachment" {
-  role       = aws_iam_role.role_for_sfn.name
-  policy_arn = aws_iam_policy.sfn_batch_policy.arn
 }
