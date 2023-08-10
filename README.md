@@ -1,5 +1,5 @@
 # terraform-aws-batch-processing
-
+<!-- BEGIN_TF_DOCS -->
 ## Purpose
 A collection of terraform modules which creates a generic data processing pipeline. This is a recurring infrastructure pattern in both academic and commerical settings.
 The codebase is designed to be modulerised but care is needed when a subset of the modules are used.
