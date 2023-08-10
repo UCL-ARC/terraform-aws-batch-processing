@@ -47,7 +47,7 @@ No resources.
 | <a name="input_as2_fleet_description"></a> [as2\_fleet\_description](#input\_as2\_fleet\_description) | Fleet description | `string` | `"ARC batch process fleet"` | no |
 | <a name="input_as2_fleet_display_name"></a> [as2\_fleet\_display\_name](#input\_as2\_fleet\_display\_name) | Fleet diplay name | `string` | `"ARC batch process fleet"` | no |
 | <a name="input_as2_fleet_name"></a> [as2\_fleet\_name](#input\_as2\_fleet\_name) | Fleet name | `string` | `"ARC-batch-fleet"` | no |
-| <a name="input_age_name"></a> [as2\_image\_name](#input\_as2\_image\_name) | AS2 image to deploy | `string` | n/a | yes |
+| <a name="input_as2_image_name"></a> [as2\_image\_name](#input\_as2\_image\_name) | AS2 image to deploy | `string` | n/a | yes |
 | <a name="input_as2_instance_type"></a> [as2\_instance\_type](#input\_as2\_instance\_type) | AS2 instance type | `string` | `"stream.standard.medium"` | no |
 | <a name="input_as2_stack_description"></a> [as2\_stack\_description](#input\_as2\_stack\_description) | Stack description | `string` | `"ARC batch process stack"` | no |
 | <a name="input_as2_stack_display_name"></a> [as2\_stack\_display\_name](#input\_as2\_stack\_display\_name) | Stack diplay name | `string` | `"ARC batch process stack"` | no |
