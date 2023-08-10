@@ -1,15 +1,4 @@
 # terraform-aws-batch-processing
-## Purpose
- A collection of terraform modules which creates a generic data processing pipeline. This is a recurring infrastructure pattern in both academic and commerical settings.
- The codebase is designed to be modulerised but care is needed when a subset of the modules are used.
-
-## Description
-
- ![Schematic of the infrastructure](TF_schematic.png)
-
-## Warning
- Please be advised that to use Appstream you will need to follow the console set up at [https://eu-west-2.console.aws.amazon.com/appstream2] before deploying the terraform. 
-
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
