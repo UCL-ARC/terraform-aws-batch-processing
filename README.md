@@ -5,7 +5,7 @@
 
 ## Description
 
- ![Schematic of the infrastructure](TF_Schematic.png)
+ ![Schematic of the infrastructure](TF_schematic.png)
 
 ## Warning
  Please be advised that to use Appstream you will need to follow the console set up at [https://eu-west-2.console.aws.amazon.com/appstream2] before deploying the terraform. 
