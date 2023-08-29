@@ -64,8 +64,7 @@ module "step_function" {
       "Parameters": {
         "JobDefinition": "${var.batch_task_arn}",
         "JobQueue": "${var.batch_job_queue_arn}",
-        "JobName": "simple",
-        "ShareIdentifier": "test"
+        "JobName": "simple"
       },
       "Next": "Data_Sync_efs_s3"
     },
