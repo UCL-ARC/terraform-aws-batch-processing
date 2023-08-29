@@ -129,7 +129,7 @@ resource "aws_batch_job_queue" "test-queue" {
   state                 = "ENABLED"
   priority              = 1
 
-  compute_environments = [batch.compute_environments.env.arn]
+  compute_environments = [module.batch.compute_environments.env.arn]
 }
 
 ################################################################################
