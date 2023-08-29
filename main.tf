@@ -54,7 +54,7 @@ module "step_function" {
   source               = "./modules/step_function"
   batch_task_arn       = module.batch.batch_job_arn
   region               = var.region
-  batch_job_queues     = module.batch.job_queues
+  batch_job_queue_arn  = module.batch.job_queue_arn
   datasync_task_s3_efs = module.datasync.datasync_task_s3_efs
   datasync_task_efs_s3 = module.datasync.datasync_task_efs_s3
 }

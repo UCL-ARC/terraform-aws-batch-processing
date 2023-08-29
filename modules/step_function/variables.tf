@@ -7,12 +7,9 @@ variable "region" {
   default     = "eu-west-2"
   description = "The region to deploy into."
 }
-variable "batch_job_queues" {
-  type        = map(any)
-  description = "Batch Job Queue"
-  default = {
-    "job_queues" = "HighPriority"
-  }
+variable "batch_job_queue_arn" {
+  type        = string
+  description = "Batch job queue arn"
 }
 variable "datasync_task_s3_efs" {
   type        = string

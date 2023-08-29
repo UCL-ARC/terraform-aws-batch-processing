@@ -125,9 +125,9 @@ resource "aws_batch_job_definition" "simple_batch_job" {
 }
 
 resource "aws_batch_job_queue" "test-queue" {
-  name = "batch-job-queue"
-  state                 = "ENABLED"
-  priority              = 1
+  name     = "batch-job-queue"
+  state    = "ENABLED"
+  priority = 1
 
   compute_environments = [module.batch.compute_environments.env.arn]
 }
