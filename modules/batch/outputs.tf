@@ -64,9 +64,9 @@ output "service_iam_role_unique_id" {
 # Job Queue
 ################################################################################
 
-output "job_queues" {
+output "job_queue_arn" {
   description = "Map of job queues created and their associated attributes"
-  value       = module.batch.job_queues
+  value       = aws_batch_job_queue.test-queue.arn
 }
 
 ################################################################################

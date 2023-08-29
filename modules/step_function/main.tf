@@ -1,6 +1,5 @@
 locals {
   account_id = data.aws_caller_identity.current.account_id
-  job_queue  = var.batch_job_queues["high_priority"]
 }
 
 data "aws_caller_identity" "current" {}
@@ -64,7 +63,7 @@ module "step_function" {
       "Resource": "arn:aws:states:::batch:submitJob.sync",
       "Parameters": {
         "JobDefinition": "${var.batch_task_arn}",
-        "JobQueue": "${local.job_queue.arn}",
+        "JobQueue": "${var.batch_job_queue_arn}",
         "JobName": "simple",
         "ShareIdentifier": "test"
       },

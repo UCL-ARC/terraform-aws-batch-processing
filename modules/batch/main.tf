@@ -44,41 +44,41 @@ module "batch" {
     }
   }
 
-  # Job queues and scheduling policies
-  job_queues = {
-    low_priority = {
-      name     = "LowPriority"
-      state    = "ENABLED"
-      priority = 1
+  # # Job queues and scheduling policies
+  # job_queues = {
+  #   low_priority = {
+  #     name     = "LowPriority"
+  #     state    = "ENABLED"
+  #     priority = 1
 
-      tags = {
-        JobQueue = "Low priority job queue"
-      }
-    }
+  #     tags = {
+  #       JobQueue = "Low priority job queue"
+  #     }
+  #   }
 
-    high_priority = {
-      name     = "HighPriority"
-      state    = "ENABLED"
-      priority = 99
+  #   high_priority = {
+  #     name     = "HighPriority"
+  #     state    = "ENABLED"
+  #     priority = 99
 
-      fair_share_policy = {
-        compute_reservation = 1
-        share_decay_seconds = 3600
+  #     fair_share_policy = {
+  #       compute_reservation = 1
+  #       share_decay_seconds = 3600
 
-        share_distribution = [{
-          share_identifier = "A1*"
-          weight_factor    = 0.1
-          }, {
-          share_identifier = "A2"
-          weight_factor    = 0.2
-        }]
-      }
+  #       share_distribution = [{
+  #         share_identifier = "A1*"
+  #         weight_factor    = 0.1
+  #         }, {
+  #         share_identifier = "A2"
+  #         weight_factor    = 0.2
+  #       }]
+  #     }
 
-      tags = {
-        JobQueue = "High priority job queue"
-      }
-    }
-  }
+  #     tags = {
+  #       JobQueue = "High priority job queue"
+  #     }
+  #   }
+  # }
 }
 
 resource "aws_batch_job_definition" "simple_batch_job" {
@@ -122,6 +122,14 @@ resource "aws_batch_job_definition" "simple_batch_job" {
     }
   }
   CONTAINER_PROPERTIES  
+}
+
+resource "aws_batch_job_queue" "test-queue" {
+  name     = "batch-job-queue"
+  state    = "ENABLED"
+  priority = 1
+
+  compute_environments = [module.batch.compute_environments.env.arn]
 }
 
 ################################################################################
