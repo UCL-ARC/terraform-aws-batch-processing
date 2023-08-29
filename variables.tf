@@ -42,7 +42,7 @@ variable "compute_resources_max_vcpus" {
 variable "container_image_url" {
   type        = string
   description = "Container image URL"
-  default     = "public.ecr.aws/docker/library/busybox:latest"
+  default     = "public.ecr.aws/docker/library/pandoc:core"
 }
 variable "container_vcpu" {
   type        = number
