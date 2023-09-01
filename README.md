@@ -29,9 +29,9 @@ Ensure that your IAM credentials can be used to authenticate the Terraform AWS p
 1. To enable Appstream 2.0 one needs to first create the appropriate stacks and fleets. This can be done through the management [console](https://eu-west-2.console.aws.amazon.com/appstream2). Make note of the AppStream2.0 image name. 
 2. Clone this GitHub repo. 
 3. Navigate to the cloned repo in the terminal and run the following commands: 
-`terraform init` 
-`terraform validate`
-`terraform apply`
+- `terraform init` 
+- `terraform validate`
+- `terraform apply`
  
 4. When prompted for the `as2_image_name` pass the value from Step 1. 
 5. A complete list of the AWS services which will be deployed appears. The user should check this before agreeing to the deployment (**Please be advised this will incur a cost**). 
