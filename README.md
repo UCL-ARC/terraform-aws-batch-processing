@@ -17,13 +17,44 @@ The containerised workflow consists of three highlevel steps: upload a file (ima
 - AppStream 2.0 allows a potential user a virtual desktop within the VPC. This service is included to enable quality control to be carried out on the containerized workflow.
 
 ## Installation Steps
-In order to get the infrasturture set up one will need the following:
-- An AWS Account
-- Terraform installed locally. 
+
+### Prerequisites 
+- An [AWS account](https://console.aws.amazon.com.). 
+- The [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) installed. 
+- The [Terraform CLI](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli) (1.2.0+) installed. 
+
+Ensure that your IAM credentials can be used to authenticate the Terraform AWS provider. Details can be found on the Terraform [documentation](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/aws-build). 
+
+### Steps to set up the infrastructure 
+1. To enable Appstream 2.0 one needs to first create the appropriate stacks and fleets. This can be done through the management [console](https://eu-west-2.console.aws.amazon.com/appstream2). Make note of the AppStream2.0 image name. 
+2. Clone this GitHub repo. 
+3. Navigate to the cloned repo in the terminal and run the following commands: 
+`terraform init` 
+`terraform validate`
+`terraform apply`
+ 
+4. When prompted for the `as2_image_name` pass the value from Step 1. 
+5. A complete list of the AWS services which will be deployed appears. The user should check this before agreeing to the deployment (**Please be advised this will incur a cost**). 
+
+If this is the first time to deploy please note that it will take some time.  
+
+## Details on Step Functions 
+As stated, the step functions state machine consists of three main tasks: 
+1. DataSync between the S3 uploads bucket and EFS
+2. AWS Batch job with launches a Fargate Task
+3. DataSync task to copy data from EFS to the S3 reports bucket. 
+
+However, to ensure that the DataSync tasks finish before moving to the next state a polling and wait pattern has been implemented.
+
+## Test the deployment 
+The best way to test the deployment is to navigate to the uploads S3 bucket in the management console. From here you can upload an example file to the bucket. This action should automatically trigger the step functions. To see this, open step functions in the management console and you should note a running job will have started. Once the workflow has completed you will see the processed file appear in the reports S3 bucket. 
+Cleaning up 
+
+To avoid incurring future charges, delete the resources. 
 
 
 ## Warning
- Please be advised that to use Appstream you will need to follow the console set up at [https://eu-west-2.console.aws.amazon.com/appstream2] before deploying the terraform. 
+ Please be advised that to use Appstream2.0 you will need to follow the console set up at [https://eu-west-2.console.aws.amazon.com/appstream2] before deploying the terraform. 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
