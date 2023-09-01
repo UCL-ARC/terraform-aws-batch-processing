@@ -5,7 +5,22 @@
 
 ## Description
 
- ![Schematic of the infrastructure](TF_schematic.png)
+The containerised workflow consists of three highlevel steps: upload a file (image or text base), trigger an automatic workflow which processes the uploaded data and then return the resultant output. To capture this workflow in a modern serverless design the following architected solution was developed. 
+![Schematic of the infrastructure](TF_schematic.png)
+
+- A S3 bucket with intelligent storage options and lambda trigger is set up to receive the uploaded data. When data (file, image, etc.) arrives on the S3 bucket a lambda function is triggered which instantiates AWS Step Functions.
+- AWS Step Functions consists of three states: 
+1.	A DataSync task for copying the contents of the upload S3 bucket to EFS.
+2.	AWS Batch which launches an AWS Fargate containerized task.
+3.	A DataSync task to copy the resultant output from the Batch job on EFS to a reports S3 bucket.
+- A S3 bucket denoted as Reports S3 in the schematic figure provides storage for the processed output from the container.
+- AppStream 2.0 allows a potential user a virtual desktop within the VPC. This service is included to enable quality control to be carried out on the containerized workflow.
+
+## Installation Steps
+In order to get the infrasturture set up one will need the following:
+- An AWS Account
+- Terraform installed locally. 
+
 
 ## Warning
  Please be advised that to use Appstream you will need to follow the console set up at [https://eu-west-2.console.aws.amazon.com/appstream2] before deploying the terraform. 
