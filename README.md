@@ -10,9 +10,9 @@ The containerised workflow consists of three highlevel steps: upload a file (ima
 
 - A S3 bucket with intelligent storage options and lambda trigger is set up to receive the uploaded data. When data (file, image, etc.) arrives on the S3 bucket a lambda function is triggered which instantiates AWS Step Functions.
 - AWS Step Functions consists of three states: 
- 1.	A DataSync task for copying the contents of the upload S3 bucket to EFS.
- 2.	AWS Batch which launches an AWS Fargate containerized task.
- 3.	A DataSync task to copy the resultant output from the Batch job on EFS to a reports S3 bucket.
+    1. A DataSync task for copying the contents of the upload S3 bucket to EFS.
+    2. AWS Batch which launches an AWS Fargate containerized task.
+    3. A DataSync task to copy the resultant output from the Batch job on EFS to a reports S3 bucket.
 - A S3 bucket denoted as Reports S3 in the schematic figure provides storage for the processed output from the container.
 - AppStream 2.0 allows a potential user a virtual desktop within the VPC. This service is included to enable quality control to be carried out on the containerized workflow.
 
