@@ -55,7 +55,7 @@ resource "aws_batch_job_definition" "simple_batch_job" {
   container_properties = <<CONTAINER_PROPERTIES
   {
     "image": "${var.container_image_url}",
-    "command": ["df", "-h"],
+    "command": ["/mnt/example.txt", "-o", "example.pdf"],
     "executionRoleArn": "${aws_iam_role.ecs_task_execution_role.arn}",
     "volumes": [
       {
