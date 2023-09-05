@@ -22,7 +22,7 @@ resource "aws_datasync_task" "datasync_task_efs_s3" {
 
 resource "aws_datasync_location_s3" "s3_upload" {
   s3_bucket_arn = var.upload_s3_arn
-  subdirectory  = "/chronostics/"
+  subdirectory  = "/"
 
   s3_config {
     bucket_access_role_arn = aws_iam_role.role_for_datasync_s3_uploads.arn

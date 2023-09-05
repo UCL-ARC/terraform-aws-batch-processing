@@ -37,12 +37,12 @@ variable "compute_environments" {
 variable "compute_resources_max_vcpus" {
   type        = number
   description = "Max VCPUs resources"
-  default     = 1
+  default     = 1.0
 }
 variable "container_image_url" {
   type        = string
   description = "Container image URL"
-  default     = "public.ecr.aws/docker/library/busybox:latest"
+  default     = "pandoc/minimal"
 }
 variable "container_vcpu" {
   type        = number
